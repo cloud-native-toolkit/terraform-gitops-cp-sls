@@ -1,8 +1,9 @@
 
 module "dev_mongo_namespace" {
-  source = "github.com/ibm-garage-cloud/terraform-cluster-namespace?ref=v3.1.2"
+  source = "github.com/cloud-native-toolkit/terraform-gitops-namespace.git"
 
-  cluster_config_file_path = module.dev_cluster.config_file_path
+  gitops_config = module.gitops.gitops_config
+  git_credentials = module.gitops.git_credentials
   name = var.mongo_namespace
   create_operator_group = false
 }

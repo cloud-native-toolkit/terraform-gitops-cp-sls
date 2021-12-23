@@ -1,14 +1,13 @@
 module "dev_sls_namespace" {
-  source = "github.com/ibm-garage-cloud/terraform-cluster-namespace?ref=v3.1.2"
+  source = "github.com/cloud-native-toolkit/terraform-gitops-namespace.git"
 
-  cluster_config_file_path = module.dev_cluster.config_file_path
-  name                     = var.sls_namespace
-  create_operator_group    = true
+  gitops_config = module.gitops.gitops_config
+  git_credentials = module.gitops.git_credentials
+  name = var.sls_namespace
 }
-
 
 resource null_resource write_namespace {
   provisioner "local-exec" {
-    command = "echo '${var.sls_namespace}' > ${path.cwd}/sls_namespace"
+    command = "echo -n '${module.dev_sls_namespace.name}' > ${path.cwd}/sls_namespace"
   }
 }
