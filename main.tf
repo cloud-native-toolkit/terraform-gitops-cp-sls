@@ -6,6 +6,20 @@ locals {
   ingress_url   = "https://${local.ingress_host}"
   service_url   = "http://${local.name}.${var.namespace}"
   values_content = {
+    "ibm-sls-operator" = {
+      subscriptions = {
+        ibmsls = {
+          name = "ibm-sls"
+          subscription = {
+            channel = var.channel
+            installPlanApproval = "Automatic"
+            name = "ibm-sls"
+            source = var.catalog
+            sourceNamespace = var.catalog_namespace
+          }
+        }
+      }
+    }
   }
   layer = "services"
   application_branch = "main"
