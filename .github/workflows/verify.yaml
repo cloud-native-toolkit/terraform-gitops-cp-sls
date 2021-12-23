@@ -79,7 +79,7 @@ jobs:
 
   
   release:
-    needs: [verify, verifyMetadata]
+    needs: verify
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'push' }}
 
