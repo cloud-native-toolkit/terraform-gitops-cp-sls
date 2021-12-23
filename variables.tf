@@ -102,11 +102,7 @@ variable "mongo_svcname" {
   
 }
 
-variable "certmgr_namespace" {
-  type        = string
-  description = "Namespace where cert-manager is deployed"
-  default = "cert-manager"
-}
+
 variable "cluster_ingress_hostname" {
   type        = string
   description = "Ingress hostname of the IKS cluster."
