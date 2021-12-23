@@ -1,4 +1,4 @@
-module "gitops_module" {
+module "sls" {
   source = "./module"
 
   gitops_config = module.gitops.gitops_config
@@ -9,4 +9,5 @@ module "gitops_module" {
   cluster_type = module.dev_cluster.platform.type_code
   tls_secret_name = module.dev_cluster.platform.tls_secret
   kubeseal_cert = module.argocd-bootstrap.sealed_secrets_cert
+  catalog = module.cp_catalogs.catalog_ibmoperators
 }
