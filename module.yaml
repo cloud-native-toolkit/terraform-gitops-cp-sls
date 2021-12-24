@@ -1,8 +1,10 @@
-name: ""
-type: terraform
-description: ""
+name: gitops-cp-sls
+type: gitops
+description: Module to populate a gitops repo with the resources to deploy IBM Suite License Service
 tags:
-  - tools
+  - cluudpak
+  - ibm
+  - license
   - gitops
 versions:
   - platforms:
