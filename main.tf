@@ -1,5 +1,5 @@
 locals {
-  name          = "my-module"
+  name          ="ibm-sls-operator"
   bin_dir       = module.setup_clis.bin_dir
   yaml_dir      = "${path.cwd}/.tmp/${local.name}/chart/${local.name}"
   ingress_host  = "${local.name}-${var.sls_namespace}.${var.cluster_ingress_hostname}"
