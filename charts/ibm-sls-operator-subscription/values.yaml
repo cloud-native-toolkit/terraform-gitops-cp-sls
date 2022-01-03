@@ -1,6 +1,6 @@
 global: {}
 
-ibm-sls-operator:
+ibm-sls-operator-subscription:
   subscriptions:
     ibmsls:
       name: ibm-sls
