@@ -1,9 +1,11 @@
 name: gitops-ibm-ocp-sls
-type: terraform
+type: gitops
 description: "Module to populate a gitops repository for SLS service"
 tags:
-  - tools
   - gitops
+  - cluudpak
+  - ibm
+  - license
 versions:
   - platforms:
       - kubernetes
