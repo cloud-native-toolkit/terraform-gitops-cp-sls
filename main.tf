@@ -8,9 +8,8 @@ locals {
   ingress_host  = "${local.name}-${var.sls_namespace}.${var.cluster_ingress_hostname}"
   ingress_url   = "https://${local.ingress_host}"
   service_url   = "http://${local.name}.${var.sls_namespace}"
-  PODLIST=$(kubectl get pods --selector=app=mas-mongo-ce-svc -o=json -n mongo -o=jsonpath={.items..metadata.name})
-  PODLIST=($PODLIST)
-  PORT=$(kubectl get svc mas-mongo-ce-svc -n mongo -o=jsonpath='{.spec.ports[?(@.name=="mongodb")].port}')
+  PODLIST=["$(kubectl get pods --selector=app=mas-mongo-ce-svc -o=json -n mongo -o=jsonpath={.items..metadata.name})"]
+  PORT="$(kubectl get svc mas-mongo-ce-svc -n mongo -o=jsonpath='{.spec.ports[?(@.name==\"mongodb\")].port}')"
   values_content01 = {
     "ibm-sls-operator-subscription" = {
       subscriptions = {
@@ -36,24 +35,28 @@ locals {
             license = {
               accept = true
             }
-            domain = ${local.ingress_host}
+            domain = "${local.ingress_host}"
             mongo = {
-              configDb = admin
+              configDb = "admin"
               nodes = {
-                $(for podname in "${local.PODLIST[@]}"; do echo "      - host: "$podname.$var.mongo_namespace.$var.mongo_svcname'\n        port: '${local.PORT}; done)
-                    secretName: sls-mongo-credentials
-                    authMechanism: DEFAULT
-                    retryWrites: true
-                    certificates:
-                    - alias: mongoca
-                      crt: |
-                $(kubectl get ConfigMap mas-mongo-ce-cert-map -n $var.mongo_namespace -o jsonpath='{.data.ca\.crt}' | awk '{printf "        %s\n", $0}')
-                  rlks:
-                    storage:
-                      class: $var.sls_storageClass
-                      size: 20G
+                "$(for podname in ${local.PODLIST}; do echo \" host = \" $podname.$var.mongo_namespace.$var.mongo_svcname' \n  port = ' ${local.PORT}; done)"
               }
-            }
+              secretName = "sls-mongo-credentials"
+              authMechanism = "DEFAULT"
+              retryWrites = true
+              certificates = {
+                alias = "mongoca"
+                crt = {
+                   "$(kubectl get ConfigMap mas-mongo-ce-cert-map -n $var.mongo_namespace -o jsonpath='{.data.ca\.crt}' | awk '{printf $0}')"
+                      }
+                  }
+                }
+            rlks = {
+                    storage = {
+                      class = var.sls_storageClass
+                      size =  20G
+                    }
+                  }           
           }
         }
       }
@@ -71,7 +74,7 @@ module setup_clis {
 resource null_resource create_yaml {
   provisioner "local-exec" {
     command = "${path.module}/scripts/create-yaml01.sh '${local.chart_name01}' '${local.yaml_dir01}'"
-    command = "${path.module}/scripts/create-yaml02.sh '${local.chart_name02}' '${local.yaml_dir02}'"
+    command01 = "${path.module}/scripts/create-yaml02.sh '${local.chart_name02}' '${local.yaml_dir02}'"
 
     environment = {
       VALUES_CONTENT01 = yamlencode(local.values_content01)
@@ -85,7 +88,7 @@ resource null_resource setup_gitops {
 
   provisioner "local-exec" {
     command = "${local.bin_dir}/igc gitops-module '${local.chart_name01}' -n '${var.sls_namespace}' --contentDir '${local.yaml_dir01}' --serverName '${var.server_name}' -l '${local.layer}' --debug"
-    command = "${local.bin_dir}/igc gitops-module '${local.chart_name02}' -n '${var.sls_namespace}' --contentDir '${local.yaml_dir02}' --serverName '${var.server_name}' -l '${local.layer}' --debug"
+    command01 = "${local.bin_dir}/igc gitops-module '${local.chart_name02}' -n '${var.sls_namespace}' --contentDir '${local.yaml_dir02}' --serverName '${var.server_name}' -l '${local.layer}' --debug"
 
     environment = {
       GIT_CREDENTIALS = yamlencode(var.git_credentials)

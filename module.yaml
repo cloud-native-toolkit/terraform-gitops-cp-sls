@@ -78,18 +78,18 @@ versions:
           id: catalogs
           output: catalog_ibmoperators
       - name: mongo_dbpass
-      moduleRef:
-        id: mongodb
-        output: mongo_pw
-    - name: mongo_namespace
-      moduleRef:
-        id: mongodb
-        output: mongo_namespace
-    - name: mongo_svcname
-      moduleRef:
-        id: mongodb
-        output: mongo_servicename
-    - name: certmgr_namespace
-      moduleRef:
-        id: certmgr
-        output: cert_namespace
+        moduleRef:
+          id: mongodb
+          output: mongo_pw
+      - name: mongo_namespace
+        moduleRef:
+          id: mongodb
+          output: mongo_namespace
+      - name: mongo_svcname
+        moduleRef:
+          id: mongodb
+          output: mongo_servicename
+      - name: certmgr_namespace
+        moduleRef:
+          id: certmgr
+          output: cert_namespace
