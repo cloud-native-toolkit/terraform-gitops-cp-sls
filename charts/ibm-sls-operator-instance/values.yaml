@@ -1,0 +1,9 @@
+global: {}
+
+ibm-sls-operator-instance:
+  licenseservices:
+    sls:
+      name: sls
+      licenseservice:
+        license:
+          accept: true

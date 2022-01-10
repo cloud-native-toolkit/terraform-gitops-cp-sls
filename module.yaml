@@ -1,11 +1,11 @@
-name: gitops-cp-sls
+name: gitops-ibm-ocp-sls
 type: gitops
-description: Module to populate a gitops repo with the resources to deploy IBM Suite License Service
+description: "Module to populate a gitops repository for SLS service"
 tags:
+  - gitops
   - cluudpak
   - ibm
   - license
-  - gitops
 versions:
   - platforms:
       - kubernetes
@@ -16,6 +16,10 @@ versions:
         refs:
           - source: github.com/cloud-native-toolkit/terraform-tools-gitops.git
             version: ">= 1.1.0"
+      - id: catalogs
+        refs:
+          - source: github.com/cloud-native-toolkit/terraform-gitops-cp-catalogs.git
+            version: ">= 1.0.0"
       - id: cluster
         refs:
           - source: github.com/ibm-garage-cloud/terraform-ibm-container-platform
@@ -28,6 +32,14 @@ versions:
         refs:
           - source: github.com/cloud-native-toolkit/terraform-gitops-namespace.git
             version: ">= 1.0.0"
+      - id: mongodb
+        refs:
+          - source: github.com/cloud-native-toolkit/terraform-ocp-mongodb
+            version: ">= 1.2.0"
+      - id: certmgr
+        refs:
+          - source: github.com/cloud-native-toolkit/terraform-ocp-certmanager
+            version: ">= 1.0.1"
     variables:
       - name: gitops_config
         moduleRef:
@@ -53,7 +65,7 @@ versions:
         moduleRef:
           id: cluster
           output: platform.tls_secret
-      - name: namespace
+      - name: sls_namespace
         moduleRef:
           id: namespace
           output: name
@@ -61,3 +73,23 @@ versions:
         moduleRef:
           id: gitops
           output: sealed_secrets_cert
+      - name: catalog
+        moduleRef:
+          id: catalogs
+          output: catalog_ibmoperators
+      - name: mongo_dbpass
+        moduleRef:
+          id: mongodb
+          output: mongo_pw
+      - name: mongo_namespace
+        moduleRef:
+          id: mongodb
+          output: mongo_namespace
+      - name: mongo_svcname
+        moduleRef:
+          id: mongodb
+          output: mongo_servicename
+      - name: certmgr_namespace
+        moduleRef:
+          id: certmgr
+          output: cert_namespace
