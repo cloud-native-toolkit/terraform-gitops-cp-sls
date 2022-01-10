@@ -3,7 +3,7 @@ locals {
   chart_name01  ="ibm-sls-operator-subscription"
   chart_name02  ="ibm-sls-operator-instance"
   bin_dir       = module.setup_clis.bin_dir
-  yaml_dir01      = "${path.cwd}/.tmp/${local.name}/chart/${local.chart_name01}"
+  yaml_dir01      = "${path.cwd}/.tmp/${local.name}/chart/${local.name}"
   yaml_dir02      = "${path.cwd}/.tmp/${local.name}/chart/${local.chart_name02}"
   ingress_host  = "${local.name}-${var.sls_namespace}.${var.cluster_ingress_hostname}"
   ingress_url   = "https://${local.ingress_host}"
