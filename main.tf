@@ -71,7 +71,7 @@ module setup_clis {
 
 resource null_resource create_yaml01 {
   provisioner "local-exec" {
-    command = "${path.module}/scripts/create-yaml01.sh '${local.chart_name01}' '${local.yaml_dir01}''${local.values_file}'"
+    command = "${path.module}/scripts/create-yaml01.sh '${local.chart_name01}' '${local.yaml_dir01}' "
     environment = {
       VALUES_CONTENT01 = yamlencode(local.values_content01)
       
