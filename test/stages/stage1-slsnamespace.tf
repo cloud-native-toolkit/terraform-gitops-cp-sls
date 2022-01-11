@@ -8,6 +8,6 @@ module "dev_sls_namespace" {
 
 resource null_resource write_namespace {
   provisioner "local-exec" {
-    command = "echo -n '${module.dev_sls_namespace.name}' > ${path.cwd}/sls_namespace"
+    command = "echo -n '${module.dev_sls_namespace.name}' > ${path.cwd}/.namespace"
   }
 }
