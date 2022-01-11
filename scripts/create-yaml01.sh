@@ -10,7 +10,7 @@ VALUES_FILE="values.yaml"
 ## Add logic here to put the yaml resource content in DEST_DIR
 cp -R "${CHART01_DIR}"/* "${DEST_DIR}"
 
-if [[ -n "${VALUES_FILE}" ]] && [[ -n "${VALUES_CONTENT01}" ]]; then
-  echo "${VALUES_CONTENT}" > "${DEST_DIR}${VALUES_FILE}"
-fi
+##if [[ -n "${VALUES_FILE}" ]] && [[ -n "${VALUES_CONTENT01}" ]]; then
+  ##echo "${VALUES_CONTENT}" > "${DEST_DIR}${VALUES_FILE}"
+##fi
 find "${DEST_DIR}" -name "*"
