@@ -10,6 +10,6 @@ VALUES_FILE="$3"
 cp -R "${CHART02_DIR}"/* "${DEST_DIR}"
 
 if [[ -n "${VALUES_FILE}" ]] && [[ -n "${VALUES_CONTENT02}" ]]; then
-  echo "${VALUES_CONTENT02}" > "${DEST_DIR}/${VALUES_FILE}"
+  echo "${VALUES_CONTENT02}" > "${DEST_DIR}${VALUES_FILE}"
 fi
 find "${DEST_DIR}" -name "*"
