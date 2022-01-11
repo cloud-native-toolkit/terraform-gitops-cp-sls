@@ -94,7 +94,7 @@ resource null_resource setup_gitops {
 
 
   provisioner "local-exec" {
-    command = "${local.bin_dir}/igc gitops-module '${local.chart_name01}' -n '${var.sls_namespace}' --contentDir '${local.yaml_dir01}' --serverName '${var.server_name}' --valueFiles=${local.values_file} -l '${local.layer}' --debug"
+    command = "${local.bin_dir}/igc gitops-module '${local.chart_name01}' -n '${var.sls_namespace}' --contentDir '${local.yaml_dir01}' --serverName '${var.server_name}' --valueFiles '${local.values_file}' -l '${local.layer}' --debug"
 
     environment = {
       GIT_CREDENTIALS = yamlencode(var.git_credentials)
