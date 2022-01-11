@@ -9,9 +9,9 @@ BRANCH="main"
 SERVER_NAME="default"
 TYPE="base"
 LAYER="2-services"
-#INSTANCE_NAME="ibm-sls-operator-instance"
-#COMPONENT_NAMES="ibm-sls-operator-subscription,ibm-sls-operator-instance"
-COMPONENT_NAME="ibm-sls-operator-subscription"
+INSTANCE_NAME="ibm-sls-operator-instance"
+COMPONENT_NAMES="ibm-sls-operator-subscription,ibm-sls-operator-instance"
+#COMPONENT_NAME="ibm-sls-operator-subscription"
 
 mkdir -p .testrepo
 
@@ -20,9 +20,9 @@ git clone https://${GIT_TOKEN}@${GIT_REPO} .testrepo
 cd .testrepo || exit 1
 
 find . -name "*"
-#IFS=","
-#for COMPONENT_NAME  in $COMPONENT_NAMES;
-#do
+IFS=","
+for COMPONENT_NAME  in $COMPONENT_NAMES;
+do
 if [[ ! -f "argocd/${LAYER}/cluster/${SERVER_NAME}/${TYPE}/${NAMESPACE}-${COMPONENT_NAME}.yaml" ]]; then
   echo "ArgoCD config missing - argocd/${LAYER}/cluster/${SERVER_NAME}/${TYPE}/${NAMESPACE}-${COMPONENT_NAME}.yaml"
   exit 1
@@ -38,7 +38,7 @@ fi
 
 echo "Printing payload/${LAYER}/namespace/${NAMESPACE}/${COMPONENT_NAME}/values.yaml"
 cat "payload/${LAYER}namespace/${NAMESPACE}/${COMPONENT_NAME}/values.yaml"
-#done
+done
 count=0
 until kubectl get namespace "${NAMESPACE}" 1> /dev/null 2> /dev/null || [[ $count -eq 20 ]]; do
   echo "Waiting for namespace: ${NAMESPACE}"
@@ -54,22 +54,22 @@ else
   sleep 30
 fi
 
-#DEPLOYMENT="${INSTANCE_NAME}-${BRANCH}"
+DEPLOYMENT="${INSTANCE_NAME}-${BRANCH}"
 #DEPLOYMENT="${COMPONENT_NAME}-${BRANCH}"
-#count=0
-#until kubectl get deployment "${DEPLOYMENT}" -n "${NAMESPACE}" || [[ $count -eq 20 ]]; do
-#  echo "Waiting for deployment/${DEPLOYMENT} in ${NAMESPACE}"
-#  count=$((count + 1))
-#  sleep 15
-#done
+count=0
+until kubectl get deployment "${DEPLOYMENT}" -n "${NAMESPACE}" || [[ $count -eq 20 ]]; do
+  echo "Waiting for deployment/${DEPLOYMENT} in ${NAMESPACE}"
+  count=$((count + 1))
+  sleep 15
+done
 
-#if [[ $count -eq 20 ]]; then
-#  echo "Timed out waiting for deployment/${DEPLOYMENT} in ${NAMESPACE}"
-#  kubectl get all -n "${NAMESPACE}"
-#  exit 1
-#fi
+if [[ $count -eq 20 ]]; then
+  echo "Timed out waiting for deployment/${DEPLOYMENT} in ${NAMESPACE}"
+  kubectl get all -n "${NAMESPACE}"
+  exit 1
+fi
 
-#kubectl rollout status "deployment/${DEPLOYMENT}" -n "${NAMESPACE}" || exit 1
+kubectl rollout status "deployment/${DEPLOYMENT}" -n "${NAMESPACE}" || exit 1
 
 cd ..
 rm -rf .testrepo

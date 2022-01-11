@@ -5,7 +5,8 @@ MODULE_DIR=$(cd "${SCRIPT_DIR}/.."; pwd -P)
 CHART02_DIR=$(cd "${MODULE_DIR}/charts/ibm-sls-operator-instance"; pwd -P)
 NAME="$1"
 DEST_DIR="$2"
-VALUES_FILE="$3"
+mkdir -p "${DEST_DIR}"
+VALUES_FILE="values.yaml"
 ## Add logic here to put the yaml resource content in DEST_DIR
 cp -R "${CHART02_DIR}"/* "${DEST_DIR}"
 
