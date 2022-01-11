@@ -38,13 +38,13 @@ fi
 
 echo "Printing payload/${LAYER}/namespace/${NAMESPACE}/${COMPONENT_NAME}/values.yaml"
 cat "payload/${LAYER}namespace/${NAMESPACE}/${COMPONENT_NAME}/values.yaml"
-done
+#done
 count=0
 until kubectl get namespace "${NAMESPACE}" 1> /dev/null 2> /dev/null || [[ $count -eq 20 ]]; do
   echo "Waiting for namespace: ${NAMESPACE}"
   count=$((count + 1))
   sleep 15
-#done
+done
 
 if [[ $count -eq 20 ]]; then
   echo "Timed out waiting for namespace: ${NAMESPACE}"
