@@ -7,7 +7,7 @@ NAME="$1"
 DEST_DIR="$2"
 VALUES_FILE="$3"
 ## Add logic here to put the yaml resource content in DEST_DIR
-cp -R "${CHART_DIR}"/* "${DEST_DIR}"
+cp -R "${CHART02_DIR}"/* "${DEST_DIR}"
 
 if [[ -n "${VALUES_FILE}" ]] && [[ -n "${VALUES_CONTENT02}" ]]; then
   echo "${VALUES_CONTENT02}" > "${DEST_DIR}/${VALUES_FILE}"
