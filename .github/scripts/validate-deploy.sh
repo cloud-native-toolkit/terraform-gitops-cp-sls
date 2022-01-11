@@ -11,7 +11,7 @@ TYPE="base"
 LAYER="2-services"
 #INSTANCE_NAME="ibm-sls-operator-instance"
 #COMPONENT_NAMES="ibm-sls-operator-subscription,ibm-sls-operator-instance"
-COMPONENT_NAMES="ibm-sls-operator-subscription"
+COMPONENT_NAME="ibm-sls-operator-subscription"
 
 mkdir -p .testrepo
 
