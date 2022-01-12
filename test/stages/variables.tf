@@ -102,3 +102,9 @@ variable "mongo_namespace" {
   default = "mongo"
 }
 
+variable "bootstrap_prefix" {
+  type        = string
+  description = "Prefix for argocd directories"
+  default = "ibm-sls"
+}
+
