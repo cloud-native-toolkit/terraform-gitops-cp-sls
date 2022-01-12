@@ -71,7 +71,7 @@ locals {
 module setup_clis {
   source = "github.com/cloud-native-toolkit/terraform-util-clis.git"
 }
-
+resource null_resource mongo-credentials {
 provisioner "local-exec" {
     command = "kubectl create secret generic sls-mongo-credentials --from-literal=username=${var.mongo_userid} --from-literal=password=${var.mongo_dbpass} -n ${var.sls_namespace}"
 
@@ -79,6 +79,7 @@ provisioner "local-exec" {
       KUBECONFIG = var.cluster_config_file
     }
   }
+} 
 
 resource null_resource create_yaml01 {
   provisioner "local-exec" {
