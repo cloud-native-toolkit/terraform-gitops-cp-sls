@@ -2,7 +2,10 @@
 SCRIPT_DIR=$(cd $(dirname "$0"); pwd -P)
 MODULE_DIR=$(cd "${SCRIPT_DIR}/.."; pwd -P)
 CHART02_DIR=$(cd "${MODULE_DIR}/charts/ibm-sls-operator-instance"; pwd -P)
-
+if [[ -z "${TMP_DIR}" ]]; then
+  TMP_DIR="./.tmp"
+fi
+mkdir -p "${TMP_DIR}"
 
 
 INGRESS="$1"
@@ -16,7 +19,7 @@ PODLIST=$(kubectl get pods --selector=app=mas-mongo-ce-svc -o=json -n mongo -o=j
 PODLIST=($PODLIST)
 PORT=$(kubectl get svc mas-mongo-ce-svc -n mongo -o=jsonpath='{.spec.ports[?(@.name=="mongodb")].port}')
 
-cat > "${CHART02_DIR}/values.yaml" << EOL
+cat > "${TMP_DIR}/values.yaml" << EOL
 apiVersion: sls.ibm.com/v1
 kind: LicenseService
 metadata:
@@ -44,10 +47,11 @@ $(kubectl get ConfigMap mas-mongo-ce-cert-map -n ${MONGONAMESPACE} -o jsonpath='
 EOL
   mkdir -p "${DEST_DIR}"
 
-  VALUES_CONTENT=${CHART02_DIR}"/values.yaml"
+  #VALUES_CONTENT=${CHART02_DIR}"/values.yaml"
   VALUES_FILE="values.yaml"
+  cp "${TMP_DIR}/${VALUES_FILE}" "${CHART02_DIR}"
   cp -R "${CHART02_DIR}"/* "${DEST_DIR}"  
-  echo "${VALUES_CONTENT}" > "${DEST_DIR}${VALUES_FILE}"
+  #echo "${VALUES_CONTENT}" > "${DEST_DIR}${VALUES_FILE}"
 
 
 #SLSKEY=$(kubectl get LicenseService sls -n ${SLSNAMESPACE} --output="jsonpath={..registrationKey}")
