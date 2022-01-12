@@ -3,6 +3,7 @@ module "sls" {
 
   gitops_config = module.gitops.gitops_config
   git_credentials = module.gitops.git_credentials
+  cluster_config_file = module.dev_cluster.config_file_path
   server_name = module.gitops.server_name
   cluster_ingress_hostname = module.dev_cluster.platform.ingress
   cluster_type = module.dev_cluster.platform.type_code
