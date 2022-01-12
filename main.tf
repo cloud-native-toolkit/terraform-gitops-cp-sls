@@ -89,7 +89,7 @@ provisioner "local-exec" {
 } 
 resource null_resource port {
 provisioner "local-exec" {
-    command="$(kubectl get svc mas-mongo-ce-svc -n mongo -o=jsonpath='{.spec.ports[?(@.name==\"mongodb\")].port}')"
+    command="$(kubectl get svc mas-mongo-ce-svc -n ${var.mongo_namespace} -o=jsonpath='{.spec.ports[?(@.name==\"mongodb\")].port}')"
     environment = {
       KUBECONFIG = var.cluster_config_file
     }
