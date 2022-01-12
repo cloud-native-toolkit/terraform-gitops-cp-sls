@@ -10,6 +10,7 @@ SLSNAMESPACE="$2"
 SLSSTOR="$3"
 MONGONAMESPACE="$4"
 SVC="$5"
+DEST_DIR="$6"
 PODLIST=$(kubectl get pods --selector=app=mas-mongo-ce-svc -o=json -n mongo -o=jsonpath={.items..metadata.name})
 PODLIST=($PODLIST)
 PORT=$(kubectl get svc mas-mongo-ce-svc -n mongo -o=jsonpath='{.spec.ports[?(@.name=="mongodb")].port}')

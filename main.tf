@@ -8,8 +8,6 @@ locals {
   ingress_host  = "${local.name}-${var.sls_namespace}.${var.cluster_ingress_hostname}"
   ingress_url   = "https://${local.ingress_host}"
   service_url   = "http://${local.name}.${var.sls_namespace}"
-  #PODLIST="$(kubectl get pods --selector=app=mas-mongo-ce-svc -o=json -n mongo -o=jsonpath={.items..metadata.name})"
-  #PORT="$(kubectl get svc mas-mongo-ce-svc -n mongo -o=jsonpath='{.spec.ports[?(@.name==\"mongodb\")].port}')"
   values_content01 = {
     "ibm-sls-operator-subscription" = {
       subscriptions = {
@@ -93,7 +91,7 @@ resource null_resource create_yaml01 {
 resource null_resource create_yaml02 {
   depends_on = [null_resource.create_yaml01]
   provisioner "local-exec" {
-    command = "${path.module}/scripts/create-yaml02.sh '${local.ingress_host}' '${var.sls_namespace}' '${var.sls_storageClass}' '${var.mongo_namespace}' '${var.mongo_svcname}' "
+    command = "${path.module}/scripts/create-yaml02.sh '${local.ingress_host}' '${var.sls_namespace}' '${var.sls_storageClass}' '${var.mongo_namespace}' '${var.mongo_svcname}' '${local.yaml_dir02}'"
 
     environment = {
       KUBECONFIG = var.cluster_config_file
