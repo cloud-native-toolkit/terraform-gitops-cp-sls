@@ -26,7 +26,7 @@ locals {
       }
     }
   }
-  values_content02 = {
+ /* values_content02 = {
     "ibm-sls-operator-instance" = {
       licenseservices = {
         ibmsls = {
@@ -59,7 +59,7 @@ locals {
         }
       }
     }
-  }
+  }*/
   layer = "services"
   application_branch = "main"
   values_file = "values.yaml"
