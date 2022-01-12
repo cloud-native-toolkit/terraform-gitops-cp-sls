@@ -14,7 +14,7 @@ PODLIST=$(kubectl get pods --selector=app=mas-mongo-ce-svc -o=json -n mongo -o=j
 PODLIST=($PODLIST)
 PORT=$(kubectl get svc mas-mongo-ce-svc -n mongo -o=jsonpath='{.spec.ports[?(@.name=="mongodb")].port}')
 
-cat > "${CHART02_DIR}/value.yaml" << EOL
+cat > "${CHART02_DIR}/values.yaml" << EOL
 apiVersion: sls.ibm.com/v1
 kind: LicenseService
 metadata:
@@ -40,9 +40,12 @@ $(kubectl get ConfigMap mas-mongo-ce-cert-map -n ${MONGONAMESPACE} -o jsonpath='
       class: ${SLSSTOR}
       size: 20G
 EOL
+  mkdir -p "${DEST_DIR}"
 
+  VALUES_CONTENT=${CHART02_DIR}"/values.yaml"
+  VALUES_FILE="values.yaml"
   cp -R "${CHART02_DIR}"/* "${DEST_DIR}"  
-
+  echo "${VALUES_CONTENT}" > "${DEST_DIR}${VALUES_FILE}"
 
 
 #SLSKEY=$(kubectl get LicenseService sls -n ${SLSNAMESPACE} --output="jsonpath={..registrationKey}")
