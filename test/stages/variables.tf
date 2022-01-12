@@ -83,7 +83,7 @@ variable "tls_secret_name" {
 variable "sls_namespace" {
   type        = string
   description = "sls namespace"
-  default = "ibm-sls"
+  default = "gitops-cp-sls"
 }
 
 variable "sls_key" {
@@ -99,12 +99,12 @@ variable "mongo_dbpass" {
 variable "mongo_namespace" {
   type        = string
   description = "Namespace where MongoDB is deployed"
-  default = "mongo"
+  default = "gitops-cp-sls-mongo"
 }
 
 variable "bootstrap_prefix" {
   type        = string
   description = "Prefix for argocd directories"
-  default = "ibm-sls"
+  default = "cp-sls"
 }
 
