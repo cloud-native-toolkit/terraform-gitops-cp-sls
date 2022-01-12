@@ -91,7 +91,7 @@ resource null_resource create_yaml01 {
 resource null_resource create_yaml02 {
   depends_on = [null_resource.create_yaml01]
   provisioner "local-exec" {
-    command = "${path.module}/scripts/create-yaml02.sh '${local.ingress_host}' '${var.sls_namespace}' '${var.sls_storageClass}' '${var.mongo_namespace}' '${var.mongo_svcname}' '${local.yaml_dir02}'"
+    command = "${path.module}/scripts/create-yaml02.sh '${local.ingress_host}' '${var.sls_namespace}' '${var.sls_storageClass}' '${var.mongo_namespace}' '${var.mongo_svcname}' '${local.chart_name02}' '${local.yaml_dir02}'"
 
     environment = {
       KUBECONFIG = var.cluster_config_file
