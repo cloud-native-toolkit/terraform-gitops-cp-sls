@@ -10,8 +10,6 @@ locals {
   service_url   = "http://${local.name}.${var.sls_namespace}"
   PODLIST="$(kubectl get pods --selector=app=mas-mongo-ce-svc -o=json -n mongo -o=jsonpath={.items..metadata.name})"
   PORT="$(kubectl get svc mas-mongo-ce-svc -n mongo -o=jsonpath='{.spec.ports[?(@.name==\"mongodb\")].port}')"
-  MONGO_CRT="$(kubectl get ConfigMap mas-mongo-ce-cert-map -n ${var.mongo_namespace} -o jsonpath='{.data.ca.crt}' | awk '{printf \"        %s \n\", $0}')"
-  nodes="$(for podname in ${local.PODLIST}; do echo \" host: \" $podname.${var.mongo_namespace}.${var.mongo_svcname}.svc$' \n  port = ' ${local.PORT}}; done)"
   values_content01 = {
     "ibm-sls-operator-subscription" = {
       subscriptions = {
@@ -41,13 +39,13 @@ locals {
             domain = "${local.ingress_host}"
             mongo = {
               configDb = "admin"
-              nodes = "${local.nodes}"
+              nodes = "${null_resource.nodes}"
               secretName = "sls-mongo-credentials"
               authMechanism = "DEFAULT"
               retryWrites = true
               certificates = {
                 alias = "mongoca"
-                crt = "${local.MONGO_CRT}"
+                crt = "${null_resource.mongo-crt}"
                       
                   }
                 }
@@ -80,6 +78,24 @@ provisioner "local-exec" {
     }
   }
 } 
+resource null_resource mongo-crt {
+provisioner "local-exec" {
+    command="$(kubectl get ConfigMap mas-mongo-ce-cert-map -n ${var.mongo_namespace} -o jsonpath='{.data.ca.crt}' | awk '{printf \"        %s \n\", $0}')"
+
+    environment = {
+      KUBECONFIG = var.cluster_config_file
+    }
+  }
+} 
+
+resource null_resource nodes {
+provisioner "local-exec" {
+    command="$(for podname in ${local.PODLIST}; do echo \" host: \" $podname.${var.mongo_namespace}.${var.mongo_svcname}.svc$' \n  port = ' ${local.PORT}}; done)"
+    environment = {
+      KUBECONFIG = var.cluster_config_file
+    }
+  }
+} 
 
 resource null_resource create_yaml01 {
   provisioner "local-exec" {
@@ -90,7 +106,9 @@ resource null_resource create_yaml01 {
     }
   }
 }
+
 resource null_resource create_yaml02 {
+  depends_on = [null_resource.nodes,null_resource.mongo-crt]
   provisioner "local-exec" {
     command = "${path.module}/scripts/create-yaml02.sh '${local.chart_name02}' '${local.yaml_dir02}'  "
 
