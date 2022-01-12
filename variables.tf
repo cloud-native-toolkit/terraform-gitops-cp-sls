@@ -61,7 +61,10 @@ variable "git_credentials" {
   }))
   description = "The credentials for the gitops repo(s)"
 }
-
+variable "cluster_config_file" {
+  type        = string
+  description = "Cluster config file for Kubernetes cluster."
+}
 variable "sls_namespace" {
   type        = string
   description = "The namespace where the application should be deployed"

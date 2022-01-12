@@ -10,6 +10,8 @@ locals {
   service_url   = "http://${local.name}.${var.sls_namespace}"
   PODLIST="$(kubectl get pods --selector=app=mas-mongo-ce-svc -o=json -n mongo -o=jsonpath={.items..metadata.name})"
   PORT="$(kubectl get svc mas-mongo-ce-svc -n mongo -o=jsonpath='{.spec.ports[?(@.name==\"mongodb\")].port}')"
+  MONGO_CRT="$(kubectl get ConfigMap mas-mongo-ce-cert-map -n ${var.mongo_namespace} -o jsonpath='{.data.ca.crt}' | awk '{printf \"        %s \n\", $0}')"
+  nodes="$(for podname in ${local.PODLIST}; do echo \" host: \" $podname.${var.mongo_namespace}.${var.mongo_svcname}.svc$' \n  port = ' ${local.PORT}}; done)"
   values_content01 = {
     "ibm-sls-operator-subscription" = {
       subscriptions = {
@@ -31,6 +33,7 @@ locals {
       licenseservices = {
         ibmsls = {
           name = "sls"
+          namespace = "${var.sls_namespace}"
           licenseservice = {
             license = {
               accept = true
@@ -38,13 +41,13 @@ locals {
             domain = "${local.ingress_host}"
             mongo = {
               configDb = "admin"
-              nodes = "$(for podname in ${local.PODLIST}; do echo \" host = \" $podname.$var.mongo_namespace.$var.mongo_svcname' \n  port = ' ${local.PORT}; done)"
+              nodes = "${local.nodes}"
               secretName = "sls-mongo-credentials"
               authMechanism = "DEFAULT"
               retryWrites = true
               certificates = {
                 alias = "mongoca"
-                crt = "$(kubectl get ConfigMap mas-mongo-ce-cert-map -n $var.mongo_namespace -o jsonpath='{.data.ca.crt}' | awk '{printf $0}')"
+                crt = "${local.MONGO_CRT}"
                       
                   }
                 }
@@ -68,6 +71,14 @@ locals {
 module setup_clis {
   source = "github.com/cloud-native-toolkit/terraform-util-clis.git"
 }
+
+provisioner "local-exec" {
+    command = "kubectl create secret generic sls-mongo-credentials --from-literal=username=${var.mongo_userid} --from-literal=password=${var.mongo_dbpass} -n ${var.sls_namespace}"
+
+    environment = {
+      KUBECONFIG = var.cluster_config_file
+    }
+  }
 
 resource null_resource create_yaml01 {
   provisioner "local-exec" {
