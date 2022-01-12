@@ -78,42 +78,9 @@ provisioner "local-exec" {
     }
   }
 } 
-resource null_resource mongo-crt {
-provisioner "local-exec" {
-    command="$(kubectl get ConfigMap mas-mongo-ce-cert-map -n ${var.mongo_namespace} -o jsonpath='{.data.ca.crt}' | awk '{printf \"%s\", $0}')"
-
-    environment = {
-      KUBECONFIG = var.cluster_config_file
-    }
-  }
-} 
-resource null_resource port {
-provisioner "local-exec" {
-    command="$(kubectl get svc mas-mongo-ce-svc -n ${var.mongo_namespace} -o=jsonpath='{.spec.ports[?(@.name==\"mongodb\")].port}')"
-    environment = {
-      KUBECONFIG = var.cluster_config_file
-    }
-  }
-} 
-resource null_resource podlist {
-provisioner "local-exec" {
-    command="$(kubectl get pods --selector=app=mas-mongo-ce-svc -o=json -n mongo -o=jsonpath={.items..metadata.name})"
-    environment = {
-      KUBECONFIG = var.cluster_config_file
-    }
-  }
-} 
-resource null_resource nodes {
-depends_on = [null_resource.podlist,null_resource.port]
-provisioner "local-exec" {
-    command="$(for podname in ${null_resource.podlist}; do echo \" host: \" $podname.${var.mongo_namespace}.${var.mongo_svcname}.svc$' \n  port = ' ${null_resource.port}}; done)"
-    environment = {
-      KUBECONFIG = var.cluster_config_file
-    }
-  }
-} 
 
 resource null_resource create_yaml01 {
+  #depends_on = [null_resource.mongo-credentials]
   provisioner "local-exec" {
     command = "${path.module}/scripts/create-yaml01.sh '${local.chart_name01}' '${local.yaml_dir01}' "
     environment = {
@@ -124,21 +91,19 @@ resource null_resource create_yaml01 {
 }
 
 resource null_resource create_yaml02 {
-  depends_on = [null_resource.nodes,null_resource.mongo-crt]
+  depends_on = [null_resource.create_yaml01]
   provisioner "local-exec" {
-    command = "${path.module}/scripts/create-yaml02.sh '${local.chart_name02}' '${local.yaml_dir02}'  "
+    command = "${path.module}/scripts/create-yaml02.sh '${local.ingress_host}' '${var.sls_namespace}' '${var.sls_storageClass}' '${var.mongo_namespace}' '${var.mongo_svcname}' "
 
     environment = {
-      VALUES_CONTENT02 = yamlencode(local.values_content02)
+      KUBECONFIG = var.cluster_config_file
     }
   }
 }
 
-resource null_resource setup_gitops {
- depends_on = [null_resource.create_yaml01,null_resource.create_yaml02]
- //depends_on = [null_resource.create_yaml01]
-
-
+resource null_resource setup_gitops_subscription {
+ depends_on = [null_resource.create_yaml01,null_resource.mongo-credentials]
+ 
   provisioner "local-exec" {
     command = "${local.bin_dir}/igc gitops-module '${local.chart_name01}' -n '${var.sls_namespace}' --contentDir '${local.yaml_dir01}' --serverName '${var.server_name}' --valueFiles '${local.values_file}' -l '${local.layer}' --debug"
 
@@ -147,6 +112,9 @@ resource null_resource setup_gitops {
       GITOPS_CONFIG   = yamlencode(var.gitops_config)
     }
   }
+}
+resource null_resource setup_gitops_instance {
+  depends_on = [null_resource.create_yaml02,null_resource.setup_gitops_subscription]
   provisioner "local-exec" {
     command = "${local.bin_dir}/igc gitops-module '${local.chart_name02}' -n '${var.sls_namespace}' --contentDir '${local.yaml_dir02}' --serverName '${var.server_name}' --valueFiles=${local.values_file} -l '${local.layer}' --debug"
 
