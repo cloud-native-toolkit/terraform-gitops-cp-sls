@@ -8,8 +8,8 @@ locals {
   ingress_host  = "${local.name}-${var.sls_namespace}.${var.cluster_ingress_hostname}"
   ingress_url   = "https://${local.ingress_host}"
   service_url   = "http://${local.name}.${var.sls_namespace}"
-  PODLIST="$(kubectl get pods --selector=app=mas-mongo-ce-svc -o=json -n mongo -o=jsonpath={.items..metadata.name})"
-  PORT="$(kubectl get svc mas-mongo-ce-svc -n mongo -o=jsonpath='{.spec.ports[?(@.name==\"mongodb\")].port}')"
+  #PODLIST="$(kubectl get pods --selector=app=mas-mongo-ce-svc -o=json -n mongo -o=jsonpath={.items..metadata.name})"
+  #PORT="$(kubectl get svc mas-mongo-ce-svc -n mongo -o=jsonpath='{.spec.ports[?(@.name==\"mongodb\")].port}')"
   values_content01 = {
     "ibm-sls-operator-subscription" = {
       subscriptions = {
@@ -80,17 +80,33 @@ provisioner "local-exec" {
 } 
 resource null_resource mongo-crt {
 provisioner "local-exec" {
-    command="$(kubectl get ConfigMap mas-mongo-ce-cert-map -n ${var.mongo_namespace} -o jsonpath='{.data.ca.crt}' | awk '{printf \"        %s \n\", $0}')"
+    command="$(kubectl get ConfigMap mas-mongo-ce-cert-map -n ${var.mongo_namespace} -o jsonpath='{.data.ca.crt}' | awk '{printf \"%s\", $0}')"
 
     environment = {
       KUBECONFIG = var.cluster_config_file
     }
   }
 } 
-
-resource null_resource nodes {
+resource null_resource port {
 provisioner "local-exec" {
-    command="$(for podname in ${local.PODLIST}; do echo \" host: \" $podname.${var.mongo_namespace}.${var.mongo_svcname}.svc$' \n  port = ' ${local.PORT}}; done)"
+    command="$(kubectl get svc mas-mongo-ce-svc -n mongo -o=jsonpath='{.spec.ports[?(@.name==\"mongodb\")].port}')"
+    environment = {
+      KUBECONFIG = var.cluster_config_file
+    }
+  }
+} 
+resource null_resource podlist {
+provisioner "local-exec" {
+    command="$(kubectl get pods --selector=app=mas-mongo-ce-svc -o=json -n mongo -o=jsonpath={.items..metadata.name})"
+    environment = {
+      KUBECONFIG = var.cluster_config_file
+    }
+  }
+} 
+resource null_resource nodes {
+depends_on = [null_resource.podlist,null_resource.port]
+provisioner "local-exec" {
+    command="$(for podname in ${null_resource.podlist}; do echo \" host: \" $podname.${var.mongo_namespace}.${var.mongo_svcname}.svc$' \n  port = ' ${null_resource.port}}; done)"
     environment = {
       KUBECONFIG = var.cluster_config_file
     }
