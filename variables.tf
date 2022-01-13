@@ -65,7 +65,7 @@ variable "cluster_config_file" {
   type        = string
   description = "Cluster config file for Kubernetes cluster."
 }
-variable "sls_namespace" {
+variable "namespace" {
   type        = string
   description = "The namespace where the application should be deployed"
 }

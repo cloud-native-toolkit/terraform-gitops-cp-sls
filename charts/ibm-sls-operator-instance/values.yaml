@@ -3,7 +3,7 @@ global: {}
 ibm-sls-operator-instance:
   licenseservices:
     sls:
-      name: sls
+      name: ibm-sls-operator-instance
       licenseservice:
         license:
           accept: true

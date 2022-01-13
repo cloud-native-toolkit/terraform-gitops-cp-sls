@@ -78,7 +78,7 @@ variable "tls_secret_name" {
   default = ""
 }
 
-variable "sls_namespace" {
+variable "namespace" {
   type        = string
   description = "sls namespace"
   default = "gitops-cp-sls"

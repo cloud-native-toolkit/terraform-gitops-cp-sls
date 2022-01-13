@@ -23,7 +23,7 @@ cat > "${TMP_DIR}/values.yaml" << EOL
 apiVersion: sls.ibm.com/v1
 kind: LicenseService
 metadata:
-  name: sls
+  name: ibm-sls-operator-instance
   namespace: ${SLSNAMESPACE}
 spec:
   license:

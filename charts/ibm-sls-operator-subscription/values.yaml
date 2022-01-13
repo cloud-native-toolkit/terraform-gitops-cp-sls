@@ -3,7 +3,7 @@ global: {}
 ibm-sls-operator-subscription:
   subscriptions:
     ibmsls:
-      name: ibm-sls
+      name: ibm-sls-operator-subscription
       subscription:
         channel: 3.x
         installPlanApproval: Automatic
