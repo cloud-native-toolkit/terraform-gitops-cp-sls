@@ -15,8 +15,6 @@ variable "region" {
   description = "Region for VLANs defined in private_vlan_number and public_vlan_number."
 }
 
-
-
 variable "cluster_name" {
   type        = string
   description = "The name of the cluster"
@@ -83,7 +81,7 @@ variable "tls_secret_name" {
 variable "sls_namespace" {
   type        = string
   description = "sls namespace"
-  #default = "gitops-cp-sls"
+  default = "gitops-cp-sls"
 }
 
 variable "sls_key" {
@@ -99,7 +97,7 @@ variable "mongo_dbpass" {
 variable "mongo_namespace" {
   type        = string
   description = "Namespace where MongoDB is deployed"
-  #default = "mongo"
+  default = "mongo"
 }
 
 variable "bootstrap_prefix" {
