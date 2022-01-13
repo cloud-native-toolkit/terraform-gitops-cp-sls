@@ -50,7 +50,7 @@ EOL
   #VALUES_CONTENT=${CHART02_DIR}"/values.yaml"
   VALUES_FILE="values.yaml"
   cp "${TMP_DIR}/${VALUES_FILE}" "${CHART02_DIR}"
-  cp -R "${CHART02_DIR}"/* "${DEST_DIR}"  
+  cp -R "${CHART02_DIR}/*" "${DEST_DIR}"  
   #echo "${VALUES_CONTENT}" > "${DEST_DIR}${VALUES_FILE}"
 
 
