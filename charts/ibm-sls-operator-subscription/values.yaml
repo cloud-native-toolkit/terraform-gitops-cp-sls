@@ -4,6 +4,7 @@ ibm-sls-operator-subscription:
   subscriptions:
     ibmsls:
       name: ibm-sls-operator-subscription
+      namespace: gitops-cp-sls
       subscription:
         channel: 3.x
         installPlanApproval: Automatic
