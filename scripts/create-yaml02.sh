@@ -29,14 +29,14 @@ slsinstance:
     mongo:
       configDb: admin
       nodes:
-    $(for podname in "${PODLIST[@]}"; do echo "      - host: "$podname.$SVC.$MONGONAMESPACE.svc$'\n        port: '$PORT; done)
+  $(for podname in "${PODLIST[@]}"; do echo "      - host: "$podname.$SVC.$MONGONAMESPACE.svc$'\n        port: '$PORT; done)
       secretName: sls-mongo-credentials
       authMechanism: DEFAULT
       retryWrites: true
       certificates:
       - alias: mongoca
         crt: |
-      $(kubectl get ConfigMap mas-mongo-ce-cert-map -n ${MONGONAMESPACE} -o jsonpath='{.data.ca\.crt}' | awk '{printf "        %s\n", $0}')
+  $(kubectl get ConfigMap mas-mongo-ce-cert-map -n ${MONGONAMESPACE} -o jsonpath='{.data.ca\.crt}' | awk '{printf "        %s\n", $0}')
     rlks:
       storage:
         class: ${SLSSTOR}
