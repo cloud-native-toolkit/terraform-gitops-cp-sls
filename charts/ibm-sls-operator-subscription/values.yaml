@@ -1,10 +1,6 @@
-global: {}
-
-ibm-sls-operator-subscription:
-  subscriptions:
+subscriptions:
     ibmsls:
       name: ibm-sls-operator-subscription
-      namespace: openshift-operators
       subscription:
         channel: 3.x
         installPlanApproval: Automatic

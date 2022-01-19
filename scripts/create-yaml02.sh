@@ -20,30 +20,27 @@ PODLIST=($PODLIST)
 PORT=$(kubectl get svc mas-mongo-ce-svc -n mongo -o=jsonpath='{.spec.ports[?(@.name=="mongodb")].port}')
 
 cat > "${TMP_DIR}/values.yaml" << EOL
-apiVersion: sls.ibm.com/v1
-kind: LicenseService
-metadata:
+slsinstance:
   name: ibm-sls-operator-instance
-  namespace: ${SLSNAMESPACE}
-spec:
-  license:
-    accept: true
-  domain: ${INGRESS}
-  mongo:
-    configDb: admin
-    nodes:
-$(for podname in "${PODLIST[@]}"; do echo "      - host: "$podname.$SVC.$MONGONAMESPACE.svc$'\n        port: '$PORT; done)
-    secretName: sls-mongo-credentials
-    authMechanism: DEFAULT
-    retryWrites: true
-    certificates:
-    - alias: mongoca
-      crt: |
-$(kubectl get ConfigMap mas-mongo-ce-cert-map -n ${MONGONAMESPACE} -o jsonpath='{.data.ca\.crt}' | awk '{printf "        %s\n", $0}')
-  rlks:
-    storage:
-      class: ${SLSSTOR}
-      size: 20G
+  spec:
+    license:
+      accept: true
+    domain: ${INGRESS}
+    mongo:
+      configDb: admin
+      nodes:
+    $(for podname in "${PODLIST[@]}"; do echo "      - host: "$podname.$SVC.$MONGONAMESPACE.svc$'\n        port: '$PORT; done)
+      secretName: sls-mongo-credentials
+      authMechanism: DEFAULT
+      retryWrites: true
+      certificates:
+      - alias: mongoca
+        crt: |
+      $(kubectl get ConfigMap mas-mongo-ce-cert-map -n ${MONGONAMESPACE} -o jsonpath='{.data.ca\.crt}' | awk '{printf "        %s\n", $0}')
+    rlks:
+      storage:
+        class: ${SLSSTOR}
+        size: 20G
 EOL
   mkdir -p "${DEST_DIR}"
 

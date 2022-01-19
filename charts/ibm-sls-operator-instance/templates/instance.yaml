@@ -1,0 +1,6 @@
+apiVersion: sls.ibm.com/v1
+kind: LicenseService
+metadata:
+  name: {{ .Values.slsinstance.name }}
+spec:
+  {{- toYaml .Values.slsinstance.spec | nindent 2 }}
