@@ -18,6 +18,7 @@ DEST_DIR="$7"
 PODLIST=$(kubectl get pods --selector=app=mas-mongo-ce-svc -o=json -n mongo -o=jsonpath={.items..metadata.name})
 PODLIST=($PODLIST)
 PORT=$(kubectl get svc mas-mongo-ce-svc -n mongo -o=jsonpath='{.spec.ports[?(@.name=="mongodb")].port}')
+CRT=$(kubectl get ConfigMap mas-mongo-ce-cert-map -n ${MONGONAMESPACE} -o jsonpath='{.data.ca\.crt}' | awk '{printf "        %s\n", $0}')
 
 cat > "${TMP_DIR}/values.yaml" << EOL
 slsinstance:
@@ -35,8 +36,7 @@ $(for podname in "${PODLIST[@]}"; do echo "      - host: "$podname.$SVC.$MONGONA
       retryWrites: true
       certificates:
       - alias: mongoca
-        crt: |
-$(kubectl get ConfigMap mas-mongo-ce-cert-map -n ${MONGONAMESPACE} -o jsonpath='{.data.ca\.crt}' | awk '{printf "        %s\n", $0}')
+        crt: ${CRT}
     rlks:
       storage:
         class: ${SLSSTOR}
