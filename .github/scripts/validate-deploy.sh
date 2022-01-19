@@ -4,7 +4,7 @@ GIT_REPO=$(cat git_repo)
 GIT_TOKEN=$(cat git_token)
 
 export KUBECONFIG=$(cat .kubeconfig)
-NAMESPACE=$(cat .namespace)
+NAMESPACE="openshift-operators"
 BRANCH="main"
 SERVER_NAME="default"
 TYPE="base"

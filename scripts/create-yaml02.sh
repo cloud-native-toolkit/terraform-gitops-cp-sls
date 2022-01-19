@@ -36,7 +36,7 @@ $(for podname in "${PODLIST[@]}"; do echo "      - host: "$podname.$SVC.$MONGONA
       certificates:
       - alias: mongoca
         crt: |
-$(kubectl get ConfigMap mas-mongo-ce-cert-map -n ${MONGONAMESPACE} -o jsonpath='{.data.ca\.crt}' | awk '{printf "        %s\n", $0}')
+  $(kubectl get ConfigMap mas-mongo-ce-cert-map -n ${MONGONAMESPACE} -o jsonpath='{.data.ca\.crt}' | awk '{printf "        %s\n", $0}')
     rlks:
       storage:
         class: ${SLSSTOR}
