@@ -53,6 +53,7 @@ else
   echo "Found namespace: ${NAMESPACE}. Sleeping for 30 seconds to wait for everything to settle down"
   sleep 30
 fi
+kubectl get all -n "${NAMESPACE}"
 
 #DEPLOYMENT="${INSTANCE_NAME}-${BRANCH}"
 #DEPLOYMENT="${COMPONENT_NAME}-${BRANCH}"
@@ -70,6 +71,7 @@ fi
 #fi
 
 #kubectl rollout status "deployment/${DEPLOYMENT}" -n "${NAMESPACE}" || exit 1
+
 
 cd ..
 rm -rf .testrepo
