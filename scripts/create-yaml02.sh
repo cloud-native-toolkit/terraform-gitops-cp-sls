@@ -49,7 +49,7 @@ EOL
   VALUES_FILE="values.yaml"
   cp "${TMP_DIR}/${VALUES_FILE}" "${CHART02_DIR}"
   cp -R "${CHART02_DIR}"/* "${DEST_DIR}"  
-  #echo "${VALUES_CONTENT}" > "${DEST_DIR}${VALUES_FILE}"
+  #echo "${VALUES_CONTENT02}" > "${DEST_DIR}${VALUES_FILE}"
 
 
 #SLSKEY=$(kubectl get LicenseService sls -n ${SLSNAMESPACE} --output="jsonpath={..registrationKey}")

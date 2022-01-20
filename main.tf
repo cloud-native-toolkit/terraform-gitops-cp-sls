@@ -24,40 +24,6 @@ locals {
       }
     }
   }
- /* values_content02 = {
-    "ibm-sls-operator-instance" = {
-      licenseservices = {
-        ibmsls = {
-          name = "sls"
-          namespace = "${var.namespace}"
-          licenseservice = {
-            license = {
-              accept = true
-            }
-            domain = "${local.ingress_host}"
-            mongo = {
-              configDb = "admin"
-              nodes = "${null_resource.nodes}"
-              secretName = "sls-mongo-credentials"
-              authMechanism = "DEFAULT"
-              retryWrites = true
-              certificates = {
-                alias = "mongoca"
-                crt = "${null_resource.mongo-crt}"
-                      
-                  }
-                }
-            rlks = {
-                    storage = {
-                      class = var.sls_storageClass 
-                      size  =  "20G"
-                    }
-                  }           
-          }
-        }
-      }
-    }
-  }*/
   layer = "services"
   application_branch = "main"
   values_file = "values.yaml"
@@ -67,18 +33,8 @@ locals {
 module setup_clis {
   source = "github.com/cloud-native-toolkit/terraform-util-clis.git"
 }
-/*resource null_resource mongo-credentials {
-provisioner "local-exec" {
-    command = "kubectl create secret generic sls-mongo-credentials --from-literal=username=${var.mongo_userid} --from-literal=password=${var.mongo_dbpass} -n ${var.namespace}"
-
-    environment = {
-      KUBECONFIG = var.cluster_config_file
-    }
-  }
-} */
 
 resource null_resource create_yaml01 {
-  #depends_on = [null_resource.mongo-credentials]
   provisioner "local-exec" {
     command = "${path.module}/scripts/create-yaml01.sh '${local.chart_name01}' '${local.yaml_dir01}' "
     environment = {
@@ -101,8 +57,6 @@ resource null_resource create_yaml02 {
 
 resource null_resource setup_gitops_subscription {
  depends_on = [null_resource.create_yaml01]
- #depends_on = [null_resource.create_yaml01,null_resource.mongo-credentials]
- 
   provisioner "local-exec" {
     command = "${local.bin_dir}/igc gitops-module '${local.chart_name01}' -n '${var.namespace}' --contentDir '${local.yaml_dir01}' --serverName '${var.server_name}' --valueFiles '${local.values_file}' -l '${local.layer}' --debug"
 
