@@ -9,8 +9,7 @@ locals {
   ingress_url   = "https://${local.ingress_host}"
   service_url   = "http://${local.name}.${var.namespace}"
   values_content01 = {
-    "ibm-sls-operator-subscription" = {
-      subscriptions = {
+    subscriptions = {
         ibmsls = {
           name = "ibm-sls-operator-subscription"
           subscription = {
@@ -23,7 +22,6 @@ locals {
         }
       }
     }
-  }
   layer = "services"
   application_branch = "main"
   values_file = "values.yaml"
