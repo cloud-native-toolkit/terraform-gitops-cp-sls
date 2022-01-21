@@ -1,23 +1,6 @@
-# Starter kit for a Terraform GitOps module
+# Maximo Service License Suite Module
 
-This is a Starter kit to help with the creation of Terraform modules. The basic structure of a Terraform module is fairly
-simple and consists of the following basic values:
-
-- README.md - provides a description of the module
-- main.tf - defines the logic for the module
-- variables.tf (optional) - defines the input variables for the module
-- outputs.tf (optional) - defines the values that are output from the module
-
-Beyond those files, any other content can be added and organized however you see fit. For example, you can add a `scripts/` directory
-that contains shell scripts executed by a `local-exec` `null_resource` in the terraform module. The contents will depend on what your
-module does and how it does it.
-
-## Instructions for creating a new module
-
-1. Update the title and description in the README to match the module you are creating
-2. Fill out the remaining sections in the README template as appropriate
-3. Implement your logic in the in the main.tf, variables.tf, and outputs.tf
-4. Use releases/tags to manage release versions of your module
+Module to populate a gitops repository with the SLS operator subscription and LicenseService(instance) for MAS. 
 
 ## Software dependencies
 
@@ -37,23 +20,32 @@ The module depends on the following software components:
 
 This module makes use of the output from other modules:
 
+- Argocd Bootstrap - github.com/cloud-native-toolkit/terraform-tools-argocd-bootstrap.git
 - GitOps - github.com/cloud-native-toolkit/terraform-tools-gitops.git
+- Cluster - github.com/cloud-native-toolkit/terraform-ibm-ocp-vpc.git
 - Namespace - github.com/cloud-native-toolkit/terraform-gitops-namespace.git
-- etc
+- Catalog - github.com/cloud-native-toolkit/terraform-gitops-cp-catalogs.git
+- MongoDB
 
 ## Example usage
 
 ```hcl-terraform
-module "dev_tools_argocd" {
-  source = "github.com/cloud-native-toolkit/terraform-tools-argocd.git"
-
+module "sls" {
+  source = "https://github.com/cloud-native-toolkit/terraform-gitops-cp-sls"
+  gitops_config = module.gitops.gitops_config
+  git_credentials = module.gitops.git_credentials
   cluster_config_file = module.dev_cluster.config_file_path
-  cluster_type        = module.dev_cluster.type
-  app_namespace       = module.dev_cluster_namespaces.tools_namespace_name
-  ingress_subdomain   = module.dev_cluster.ingress_hostname
-  olm_namespace       = module.dev_software_olm.olm_namespace
-  operator_namespace  = module.dev_software_olm.target_namespace
-  name                = "argocd"
+  server_name = module.gitops.server_name
+  cluster_ingress_hostname = module.dev_cluster.platform.ingress
+  cluster_type = module.dev_cluster.platform.type_code
+  tls_secret_name = module.dev_cluster.platform.tls_secret
+  kubeseal_cert = module.argocd-bootstrap.sealed_secrets_cert
+  catalog = module.cp_catalogs.catalog_ibmoperators
+  namespace   = module.dev_namespace.name
+  sls_key         = var.sls_key
+  mongo_dbpass    = module.dev_mongo.mongo_pw
+  mongo_namespace = module.dev_mongo.mongo_namespace
+  mongo_svcname   = module.dev_mongo.mongo_servicename
 }
 ```
 
