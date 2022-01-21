@@ -77,9 +77,36 @@ jobs:
           TF_VAR_sls_key: ${{ secrets.SLS_KEY }}
           SLS_KEY: ${{ secrets.SLS_KEY }}
 
-  
+  verifyMetadata:
+    runs-on: ubuntu-latest
+
+    env:
+      DIST_DIR: ./dist
+      PUBLISH_BRANCH: gh-pages
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v2-beta
+        with:
+          node-version: '14'
+
+      - name: Build catalog
+        uses: cloud-native-toolkit/action-module-catalog@v1
+        with:
+          tagName: ${{ github.event.release.tag_name }}
+          distDir: ${{ env.DIST_DIR }}
+          publishBranch: ${{ env.PUBLISH_BRANCH }}
+
+      - name: Verify module schema
+        run: |
+          npm i -g ajv-cli
+          curl -LsO https://modules.cloudnativetoolkit.dev/schemas/module.json
+          ajv test -s module.json -d ${{ env.DIST_DIR }}/index.yaml --valid
+
   release:
-    needs: verify
+    needs: [verify, verifyMetadata]
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'push' }}
 
