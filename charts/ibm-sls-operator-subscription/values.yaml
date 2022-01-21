@@ -1,0 +1,9 @@
+subscriptions:
+    ibmsls:
+      name: ibm-sls-operator-subscription
+      subscription:
+        channel: 3.x
+        installPlanApproval: Automatic
+        name: ibm-sls
+        source: ibm-operator-catalog
+        sourceNamespace: openshift-marketplace

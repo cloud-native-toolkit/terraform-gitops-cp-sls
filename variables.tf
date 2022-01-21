@@ -61,11 +61,50 @@ variable "git_credentials" {
   }))
   description = "The credentials for the gitops repo(s)"
 }
-
+variable "cluster_config_file" {
+  type        = string
+  description = "Cluster config file for Kubernetes cluster."
+}
 variable "namespace" {
   type        = string
   description = "The namespace where the application should be deployed"
 }
+variable "sls_key" {
+  type        = string
+  description = "ibm container entitlement key for sls"
+
+}
+
+variable "sls_storageClass" {
+  type        = string
+  description = "Name for sls file storage class"
+  default = "portworx-db2-rwx-sc"
+}
+
+variable "mongo_userid" {
+  type        = string
+  description = "mongodb admin userid, should stay admin in most cases"
+  default     = "admin"
+}
+
+variable "mongo_dbpass" {
+  type        = string
+  description = "mongodb password"
+
+}
+
+variable "mongo_namespace" {
+  type        = string
+  description = "namespace for mongo"
+  
+}
+
+variable "mongo_svcname" {
+  type        = string
+  description = "service name for mongo"
+  
+}
+
 
 variable "cluster_ingress_hostname" {
   type        = string
@@ -95,4 +134,21 @@ variable "server_name" {
   type        = string
   description = "The name of the server"
   default     = "default"
+}
+variable "catalog" {
+  type        = string
+  description = "The catalog source that should be used to deploy the operator"
+  default     = "ibm-operator-catalog"
+}
+
+variable "catalog_namespace" {
+  type        = string
+  description = "The namespace where the catalog has been deployed"
+  default     = "openshift-marketplace"
+}
+
+variable "channel" {
+  type        = string
+  description = "The channel that should be used to deploy the operator"
+  default     = "3.x"
 }

@@ -55,6 +55,10 @@ jobs:
           TF_VAR_git_repo: ${{ steps.variables.outputs.repo }}
           TF_VAR_ibmcloud_api_key: ${{ secrets.IBMCLOUD_API_KEY }}
           IBMCLOUD_API_KEY: ${{ secrets.IBMCLOUD_API_KEY }}
+          TF_VAR_mongo_dbpass: ${{ secrets.MONGO_DBPASS }}
+          MONGO_DBPASS: ${{ secrets.MONGO_DBPASS }}
+          TF_VAR_sls_key: ${{ secrets.SLS_KEY }}
+          SLS_KEY: ${{ secrets.SLS_KEY }}
 
       - name: Verify destroy on ${{ matrix.testcase }}
         uses: cloud-native-toolkit/action-module-verify-destroy@main
@@ -68,6 +72,10 @@ jobs:
           TF_VAR_git_repo: ${{ steps.variables.outputs.repo }}
           TF_VAR_ibmcloud_api_key: ${{ secrets.IBMCLOUD_API_KEY }}
           IBMCLOUD_API_KEY: ${{ secrets.IBMCLOUD_API_KEY }}
+          TF_VAR_mongo_dbpass: ${{ secrets.MONGO_DBPASS }}
+          MONGO_DBPASS: ${{ secrets.MONGO_DBPASS }}
+          TF_VAR_sls_key: ${{ secrets.SLS_KEY }}
+          SLS_KEY: ${{ secrets.SLS_KEY }}
 
   verifyMetadata:
     runs-on: ubuntu-latest

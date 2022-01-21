@@ -1,0 +1,10 @@
+global: {}
+
+ibm-sls-operator-instance:
+  licenseservices:
+    sls:
+      name: ibm-sls-operator-instance
+      namespace: gitops-cp-sls
+      licenseservice:
+        license:
+          accept: true
