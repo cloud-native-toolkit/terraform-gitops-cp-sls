@@ -22,7 +22,7 @@ versions:
             version: ">= 1.0.0"
       - id: cluster
         refs: []
-        interface: github.com/cloud-native-toolkit/garage-terraform-modules#cluster
+        interface: github.com/cloud-native-toolkit/automation-modules#cluster
       - id: namespace
         refs:
           - source: github.com/cloud-native-toolkit/terraform-gitops-namespace.git
