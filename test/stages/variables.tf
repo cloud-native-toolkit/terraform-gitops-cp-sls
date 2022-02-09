@@ -106,3 +106,13 @@ variable "bootstrap_prefix" {
   default = "ibm-cp-sls"
 }
 
+variable "server_url" {
+}
+
+variable kubeseal_namespace {
+  default = "sealed-secret"
+}
+
+variable entitlement_key {
+  default = "test"
+}
