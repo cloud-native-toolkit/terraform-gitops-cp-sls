@@ -24,6 +24,7 @@ locals {
     }
   layer = "services"
   application_branch = "main"
+  instance_type = "base"
   values_file = "values.yaml"
   layer_config = var.gitops_config[local.layer]
 }
