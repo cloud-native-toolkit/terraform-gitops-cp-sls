@@ -87,12 +87,6 @@ variable "mongo_userid" {
   default     = "admin"
 }
 
-variable "mongo_dbpass" {
-  type        = string
-  description = "mongodb password"
-
-}
-
 variable "mongo_namespace" {
   type        = string
   description = "namespace for mongo"
