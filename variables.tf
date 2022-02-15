@@ -61,18 +61,20 @@ variable "git_credentials" {
   }))
   description = "The credentials for the gitops repo(s)"
 }
+
 variable "cluster_config_file" {
   type        = string
   description = "Cluster config file for Kubernetes cluster."
 }
+
 variable "namespace" {
   type        = string
   description = "The namespace where the application should be deployed"
 }
+
 variable "sls_key" {
   type        = string
   description = "ibm container entitlement key for sls"
-
 }
 
 variable "sls_storageClass" {
@@ -105,6 +107,15 @@ variable "mongo_svcname" {
   
 }
 
+variable "mongo_cacrt" {
+  type        = string
+  description = "The CA certificate for the mongo instance"
+}
+
+variable "mongo_port" {
+  type        = string
+  description = "The port used by the the mongo instance"
+}
 
 variable "cluster_ingress_hostname" {
   type        = string
@@ -135,6 +146,7 @@ variable "server_name" {
   description = "The name of the server"
   default     = "default"
 }
+
 variable "catalog" {
   type        = string
   description = "The catalog source that should be used to deploy the operator"
@@ -151,4 +163,10 @@ variable "channel" {
   type        = string
   description = "The channel that should be used to deploy the operator"
   default     = "3.x"
+}
+
+variable "certmgr_namespace" {
+  type        = string
+  description = "The namespace where cert manager has been deployed"
+  default     = "cert-manager"
 }

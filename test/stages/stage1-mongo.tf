@@ -1,11 +1,29 @@
-module "dev_mongo" {
-  source = "github.com/cloud-native-toolkit/terraform-ocp-mongodb"
 
-  cluster_config_file      = module.dev_cluster.config_file_path
-  cluster_type             = module.dev_cluster.platform.type_code
-  cluster_ingress_hostname = module.dev_cluster.platform.ingress
-  tls_secret_name          = module.dev_cluster.platform.tls_secret
-  
-  mongo_namespace    = module.dev_mongo_namespace.name
+resource "time_sleep" "wait_30_seconds" {
+  depends_on = [module.dev_mongo_namespace]
 
+  create_duration = "30s"
+}
+
+module "mongo-operator" {
+  depends_on = [time_sleep.wait_30_seconds]
+  source = "github.com/cloud-native-toolkit/terraform-gitops-mongo-ce-operator?ref=provider"
+
+  gitops_config = module.gitops.gitops_config
+  git_credentials = module.gitops.git_credentials
+  server_name = module.gitops.server_name
+  namespace = module.dev_mongo_namespace.name
+  kubeseal_cert = module.gitops.sealed_secrets_cert
+}
+
+module "mongodb" {
+  depends_on = [time_sleep.wait_30_seconds]
+  source = "github.com/cloud-native-toolkit/terraform-gitops-mongo-ce"
+
+  gitops_config = module.gitops.gitops_config
+  git_credentials = module.gitops.git_credentials
+  server_name = module.gitops.server_name
+  namespace = module.mongo-operator.namespace
+  kubeseal_cert = module.gitops.sealed_secrets_cert
+  storage_class_name = var.rwm_storage_class
 }

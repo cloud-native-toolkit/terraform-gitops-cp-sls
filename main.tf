@@ -23,6 +23,7 @@ locals {
       }
     }
   layer = "services"
+  type = "base"
   application_branch = "main"
   values_file = "values.yaml"
   layer_config = var.gitops_config[local.layer]
@@ -45,33 +46,39 @@ resource null_resource create_yaml01 {
 resource null_resource create_yaml02 {
   depends_on = [null_resource.create_yaml01]
   provisioner "local-exec" {
-    command = "${path.module}/scripts/create-yaml02.sh '${local.ingress_host}' '${var.namespace}' '${var.sls_storageClass}' '${var.mongo_namespace}' '${var.mongo_svcname}' '${local.chart_name02}' '${local.yaml_dir02}'"
+    command = "${path.module}/scripts/create-yaml02.sh '${local.ingress_host}' '${var.namespace}' '${var.sls_storageClass}' '${var.mongo_namespace}' '${var.mongo_svcname}' '${local.chart_name02}' '${var.mongo_port}' '${local.yaml_dir02}'"
 
     environment = {
       KUBECONFIG = var.cluster_config_file
+      CA_CRT = var.mongo_cacrt
     }
   }
 }
 
-resource null_resource setup_gitops_subscription {
- depends_on = [null_resource.create_yaml01]
-  provisioner "local-exec" {
-    command = "${local.bin_dir}/igc gitops-module '${local.chart_name01}' -n '${var.namespace}' --contentDir '${local.yaml_dir01}' --serverName '${var.server_name}' --valueFiles '${local.values_file}' -l '${local.layer}' --debug"
+resource gitops_module subscription {
+  depends_on = [null_resource.create_yaml01]
 
-    environment = {
-      GIT_CREDENTIALS = yamlencode(var.git_credentials)
-      GITOPS_CONFIG   = yamlencode(var.gitops_config)
-    }
-  }
+  name        = local.chart_name01
+  namespace   = var.namespace
+  content_dir = local.yaml_dir01
+  server_name = var.server_name
+  layer       = local.layer
+  type        = "operators"
+  branch      = local.application_branch
+  config      = yamlencode(var.gitops_config)
+  credentials = yamlencode(var.git_credentials)
 }
-resource null_resource setup_gitops_instance {
-  depends_on = [null_resource.create_yaml02,null_resource.setup_gitops_subscription]
-  provisioner "local-exec" {
-    command = "${local.bin_dir}/igc gitops-module '${local.chart_name02}' -n '${var.namespace}' --contentDir '${local.yaml_dir02}' --serverName '${var.server_name}' --valueFiles=${local.values_file} -l '${local.layer}' --debug"
 
-    environment = {
-      GIT_CREDENTIALS = yamlencode(var.git_credentials)
-      GITOPS_CONFIG   = yamlencode(var.gitops_config)
-    }
-  }
+resource gitops_module instance {
+  depends_on = [null_resource.create_yaml02, gitops_module.subscription]
+
+  name        = local.chart_name02
+  namespace   = var.namespace
+  content_dir = local.yaml_dir02
+  server_name = var.server_name
+  layer       = local.layer
+  type        = "instances"
+  branch      = local.application_branch
+  config      = yamlencode(var.gitops_config)
+  credentials = yamlencode(var.git_credentials)
 }

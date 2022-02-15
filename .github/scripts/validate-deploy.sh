@@ -7,7 +7,7 @@ export KUBECONFIG=$(cat .kubeconfig)
 NAMESPACE=$(cat .namespace)
 BRANCH="main"
 SERVER_NAME="default"
-TYPE="base"
+TYPE="instances"
 LAYER="2-services"
 INSTANCE_NAME="ibm-sls-operator-instance"
 COMPONENT_NAMES="ibm-sls-operator-subscription,ibm-sls-operator-instance"
@@ -15,14 +15,19 @@ COMPONENT_NAMES="ibm-sls-operator-subscription,ibm-sls-operator-instance"
 
 mkdir -p .testrepo
 
+sleep 30s
+
 git clone https://${GIT_TOKEN}@${GIT_REPO} .testrepo
 
 cd .testrepo || exit 1
 
 find . -name "*"
-IFS=","
-for COMPONENT_NAME  in $COMPONENT_NAMES;
-do
+
+
+
+COMPONENT_NAME="ibm-sls-operator-subscription"
+TYPE="operators"
+
 if [[ ! -f "argocd/${LAYER}/cluster/${SERVER_NAME}/${TYPE}/${NAMESPACE}-${COMPONENT_NAME}.yaml" ]]; then
   echo "ArgoCD config missing - argocd/${LAYER}/cluster/${SERVER_NAME}/${TYPE}/${NAMESPACE}-${COMPONENT_NAME}.yaml"
   exit 1
@@ -38,7 +43,32 @@ fi
 
 echo "Printing payload/${LAYER}/namespace/${NAMESPACE}/${COMPONENT_NAME}/values.yaml"
 cat "payload/${LAYER}/namespace/${NAMESPACE}/${COMPONENT_NAME}/values.yaml"
-done
+
+
+
+
+
+COMPONENT_NAME="ibm-sls-operator-instance"
+TYPE="instances"
+
+if [[ ! -f "argocd/${LAYER}/cluster/${SERVER_NAME}/${TYPE}/${NAMESPACE}-${COMPONENT_NAME}.yaml" ]]; then
+  echo "ArgoCD config missing - argocd/${LAYER}/cluster/${SERVER_NAME}/${TYPE}/${NAMESPACE}-${COMPONENT_NAME}.yaml"
+  exit 1
+fi
+
+echo "Printing argocd/${LAYER}/cluster/${SERVER_NAME}/${TYPE}/${NAMESPACE}-${COMPONENT_NAME}.yaml"
+cat "argocd/${LAYER}/cluster/${SERVER_NAME}/${TYPE}/${NAMESPACE}-${COMPONENT_NAME}.yaml"
+
+if [[ ! -f "payload/${LAYER}/namespace/${NAMESPACE}/${COMPONENT_NAME}/values.yaml" ]]; then
+  echo "Application values not found - payload/2-services/namespace/${NAMESPACE}/${COMPONENT_NAME}/values.yaml"
+  exit 1
+fi
+
+echo "Printing payload/${LAYER}/namespace/${NAMESPACE}/${COMPONENT_NAME}/values.yaml"
+cat "payload/${LAYER}/namespace/${NAMESPACE}/${COMPONENT_NAME}/values.yaml"
+
+
+
 sleep 7m
 count=0
 until kubectl get namespace "${NAMESPACE}" 1> /dev/null 2> /dev/null || [[ $count -eq 20 ]]; do
