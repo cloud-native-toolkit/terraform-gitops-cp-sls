@@ -15,8 +15,8 @@ module "sls" {
   mongo_userid    = module.mongodb.username
   mongo_dbpass    = module.mongodb.password
   mongo_namespace = module.mongodb.namespace
-  mongo_svcname   = module.mongodb.service_name
-  mongo_cacrt     = module.mongodb.ca_cert
+  mongo_svcname   = module.mongodb.svcname
+  mongo_cacrt     = module.mongodb.cacrt
   mongo_port      = module.mongodb.port
   sls_storageClass = var.rwm_storage_class
 }

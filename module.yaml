@@ -79,6 +79,10 @@ versions:
         moduleRef:
           id: catalogs
           output: entitlement_key
+      - name: mongo_userid
+        moduleRef:
+          id: mongodb
+          output: username
       - name: mongo_dbpass
         moduleRef:
           id: mongodb
