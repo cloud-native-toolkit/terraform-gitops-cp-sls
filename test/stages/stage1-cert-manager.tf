@@ -1,4 +1,5 @@
 module "certmgr" {
+  depends_on = [module.gitops]
   source = "github.com/cloud-native-toolkit/terraform-gitops-ocp-cert-manager"
 
   gitops_config = module.gitops.gitops_config

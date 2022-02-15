@@ -1,6 +1,6 @@
 
 module "mongo-operator" {
-  depends_on = [module.dev_mongo_namespace]
+  depends_on = [module.dev_mongo_namespace, module.cert, module.certmgr]
   source = "github.com/cloud-native-toolkit/terraform-gitops-mongo-ce-operator?ref=provider"
 
   gitops_config = module.gitops.gitops_config
@@ -11,7 +11,7 @@ module "mongo-operator" {
 }
 
 module "mongodb" {
-  depends_on = [module.dev_mongo_namespace]
+  depends_on = [module.dev_mongo_namespace, module.cert, module.certmgr]
   source = "github.com/cloud-native-toolkit/terraform-gitops-mongo-ce"
 
   gitops_config = module.gitops.gitops_config
