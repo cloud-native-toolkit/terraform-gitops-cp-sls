@@ -72,10 +72,6 @@ versions:
         moduleRef:
           id: catalogs
           output: catalog_ibmoperators
-      - name: mongo_dbpass
-        moduleRef:
-          id: mongo-ce
-          output: mongo_pw
       - name: mongo_namespace
         moduleRef:
           id: mongo-ce
