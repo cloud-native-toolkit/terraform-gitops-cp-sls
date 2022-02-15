@@ -15,6 +15,8 @@ COMPONENT_NAMES="ibm-sls-operator-subscription,ibm-sls-operator-instance"
 
 mkdir -p .testrepo
 
+sleep 30s
+
 git clone https://${GIT_TOKEN}@${GIT_REPO} .testrepo
 
 cd .testrepo || exit 1
