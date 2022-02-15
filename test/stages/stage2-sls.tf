@@ -1,5 +1,11 @@
-module "sls" {
+resource "time_sleep" "wait_30_seconds4" {
   depends_on = [ module.dev_mongo_namespace, module.mongodb, module.dev_namespace ]
+
+  create_duration = "30s"
+}
+
+module "sls" {
+  depends_on = [ time_sleep.wait_30_seconds4 ]
   source = "./module"
 
   gitops_config = module.gitops.gitops_config
