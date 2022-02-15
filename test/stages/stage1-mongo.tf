@@ -17,5 +17,5 @@ module "mongodb" {
   server_name = module.gitops.server_name
   namespace = module.mongo-operator.namespace
   kubeseal_cert = module.gitops.sealed_secrets_cert
-  storage_class_name = var.storageclass
+  storage_class_name = var.rwm_storage_class
 }
