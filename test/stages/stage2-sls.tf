@@ -13,6 +13,6 @@ module "sls" {
   namespace   = module.dev_namespace.name
   sls_key         = var.sls_key
   mongo_namespace = module.dev_mongo.namespace
-  mongo_svcname   = module.dev_mongo.servicename
+  mongo_svcname   = module.dev_mongo.svcname
   
 }
