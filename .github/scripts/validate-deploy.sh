@@ -37,8 +37,8 @@ if [[ ! -f "argocd/${LAYER}/cluster/${SERVER_NAME}/${_TYPE}/${NAMESPACE}-${COMPO
   exit 1
 fi
 
-echo "Printing argocd/${LAYER}/cluster/${SERVER_NAME}/${TYPE}/${NAMESPACE}-${COMPONENT_NAME}.yaml"
-cat "argocd/${LAYER}/cluster/${SERVER_NAME}/${TYPE}/${NAMESPACE}-${COMPONENT_NAME}.yaml"
+echo "Printing argocd/${LAYER}/cluster/${SERVER_NAME}/${_TYPE}/${NAMESPACE}-${COMPONENT_NAME}.yaml"
+cat "argocd/${LAYER}/cluster/${SERVER_NAME}/${_TYPE}/${NAMESPACE}-${COMPONENT_NAME}.yaml"
 
 if [[ ! -f "payload/${LAYER}/namespace/${NAMESPACE}/${COMPONENT_NAME}/values.yaml" ]]; then
   echo "Application values not found - payload/2-services/namespace/${NAMESPACE}/${COMPONENT_NAME}/values.yaml"
