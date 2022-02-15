@@ -89,10 +89,6 @@ variable "sls_key" {
   description = "sls entitlement key"
 }
 
-variable "mongo_dbpass" {
-  type        = string
-  description = "mongodb password"
-}
 
 variable "mongo_namespace" {
   type        = string
