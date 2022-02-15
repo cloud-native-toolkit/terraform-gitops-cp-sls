@@ -1,4 +1,5 @@
 module "sls" {
+  depends_on = [ null_resource.write_namespace ]
   source = "./module"
 
   gitops_config = module.gitops.gitops_config

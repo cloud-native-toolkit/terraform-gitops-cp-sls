@@ -1,4 +1,5 @@
 module "dev_namespace" {
+  depends_on = [ module.dev_mongo_namespace ]
   source = "github.com/cloud-native-toolkit/terraform-gitops-namespace.git"
 
   gitops_config = module.gitops.gitops_config

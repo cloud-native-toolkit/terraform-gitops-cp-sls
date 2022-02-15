@@ -1,4 +1,5 @@
 module "gitops-bootstrap" {
+  depends_on = [module.cp_catalogs]
   source = "github.com/cloud-native-toolkit/terraform-util-gitops-bootstrap.git"
 
   cluster_config_file = module.dev_cluster.config_file_path
