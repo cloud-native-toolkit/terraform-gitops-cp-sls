@@ -8,12 +8,15 @@ module "sls" {
   cluster_ingress_hostname = module.dev_cluster.platform.ingress
   cluster_type = module.dev_cluster.platform.type_code
   tls_secret_name = module.dev_cluster.platform.tls_secret
-  kubeseal_cert = module.argocd-bootstrap.sealed_secrets_cert
+  kubeseal_cert = module.gitops.sealed_secrets_cert
   catalog = module.cp_catalogs.catalog_ibmoperators
   namespace   = module.dev_namespace.name
   sls_key         = var.sls_key
-  mongo_dbpass    = module.dev_mongo.mongo_pw
-  mongo_namespace = module.dev_mongo.mongo_namespace
-  mongo_svcname   = module.dev_mongo.mongo_servicename
-  
+  mongo_userid    = module.mongodb.username
+  mongo_dbpass    = module.mongodb.password
+  mongo_namespace = module.mongodb.namespace
+  mongo_svcname   = module.mongodb.service_name
+  mongo_cacrt     = module.mongodb.ca_cert
+  mongo_port      = module.mongodb.port
+
 }

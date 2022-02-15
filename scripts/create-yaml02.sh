@@ -14,11 +14,8 @@ SLSSTOR="$3"
 MONGONAMESPACE="$4"
 SVC="$5"
 NAME="$6"
-DEST_DIR="$7"
-PODLIST=$(kubectl get pods --selector=app=mas-mongo-ce-svc -o=json -n mongo -o=jsonpath={.items..metadata.name})
-PODLIST=($PODLIST)
-PORT=$(kubectl get svc mas-mongo-ce-svc -n mongo -o=jsonpath='{.spec.ports[?(@.name=="mongodb")].port}')
-CRT=$(kubectl get ConfigMap mas-mongo-ce-cert-map -n ${MONGONAMESPACE} -o jsonpath='{.data.ca\.crt}' | awk '{printf "        %s\n", $0}')
+PORT="$7"
+DEST_DIR="$8"
 
 cat > "${TMP_DIR}/values.yaml" << EOL
 slsinstance:
@@ -30,14 +27,15 @@ slsinstance:
     mongo:
       configDb: admin
       nodes:
-$(for podname in "${PODLIST[@]}"; do echo "      - host: "$podname.$SVC.$MONGONAMESPACE.svc$'\n        port: '$PORT; done)
+        - host: '$SVC.$MONGONAMESPACE.svc'
+          port: '$PORT'
       secretName: sls-mongo-credentials
       authMechanism: DEFAULT
       retryWrites: true
       certificates:
       - alias: mongoca
         crt: |
-$(kubectl get ConfigMap mas-mongo-ce-cert-map -n ${MONGONAMESPACE} -o jsonpath='{.data.ca\.crt}' | awk '{printf "            %s\n", $0}')            
+          $CA_CRT
     rlks:
       storage:
         class: ${SLSSTOR}

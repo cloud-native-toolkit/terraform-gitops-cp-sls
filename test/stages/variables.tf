@@ -106,3 +106,17 @@ variable "bootstrap_prefix" {
   default = "ibm-cp-sls"
 }
 
+variable "server_url" {
+  type        = string
+}
+
+variable "kubeseal_namespace" {
+  default = "sealed-secrets"
+}
+
+variable "ingress_subdomain" {
+  default = ""
+}
+
+variable "storageclass" {
+}
