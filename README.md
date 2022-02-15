@@ -26,6 +26,7 @@ This module makes use of the output from other modules:
 - Namespace - github.com/cloud-native-toolkit/terraform-gitops-namespace.git
 - Catalog - github.com/cloud-native-toolkit/terraform-gitops-cp-catalogs.git
 - MongoDB
+https://github.com/cloud-native-toolkit/terraform-gitops-mongo-ce
 
 ## Example usage
 

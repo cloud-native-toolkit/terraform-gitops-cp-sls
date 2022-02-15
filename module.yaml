@@ -27,13 +27,13 @@ versions:
         refs:
           - source: github.com/cloud-native-toolkit/terraform-gitops-namespace.git
             version: ">= 1.0.0"
-      - id: mongodb
+      - id: mongo-ce
         refs:
-          - source: github.com/cloud-native-toolkit/terraform-ocp-mongodb
+          - source: https://github.com/cloud-native-toolkit/terraform-gitops-mongo-ce
             version: ">= 1.2.0"
       - id: certmgr
         refs:
-          - source: github.com/cloud-native-toolkit/terraform-ocp-certmanager
+          - source: https://github.com/cloud-native-toolkit/terraform-gitops-ocp-cert-manager
             version: ">= 1.0.1"
     variables:
       - name: gitops_config
@@ -74,15 +74,15 @@ versions:
           output: catalog_ibmoperators
       - name: mongo_dbpass
         moduleRef:
-          id: mongodb
+          id: mongo-ce
           output: mongo_pw
       - name: mongo_namespace
         moduleRef:
-          id: mongodb
+          id: mongo-ce
           output: mongo_namespace
       - name: mongo_svcname
         moduleRef:
-          id: mongodb
+          id: mongo-ce
           output: mongo_servicename
       - name: certmgr_namespace
         moduleRef:
