@@ -26,7 +26,7 @@ IFS=","
 for COMPONENT_NAME  in $COMPONENT_NAMES;
 do
 
-if [ $COMPONENT_NAME == "ibm-sls-operator-subscription" ]; then
+if [[ $COMPONENT_NAME == "ibm-sls-operator-subscription" ]]; then
   _TYPE="operators"
 else 
   _TYPE=$TYPE
