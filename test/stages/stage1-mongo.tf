@@ -6,5 +6,7 @@ module "dev_mongo" {
   server_name = module.gitops.server_name
   kubeseal_cert = module.gitops.sealed_secrets_cert
   storage_class_name = var.mongo_storageclass
+  namespace = var.mongo_namespace
+  
 
 }

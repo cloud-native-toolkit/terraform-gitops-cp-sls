@@ -97,7 +97,7 @@ variable "mongo_dbpass" {
 variable "mongo_namespace" {
   type        = string
   description = "Namespace where MongoDB is deployed"
-  default = "mongo"
+  default = "gitops-mongo-ce"
 }
 
 variable "bootstrap_prefix" {
