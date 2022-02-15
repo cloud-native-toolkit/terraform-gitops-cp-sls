@@ -1,5 +1,4 @@
 module "gitops" {
-  depends_on = [module.gitops-bootstrap]
   source = "github.com/cloud-native-toolkit/terraform-tools-gitops"
 
   host = var.git_host

@@ -1,5 +1,5 @@
 module "sls" {
-  depends_on = [ null_resource.write_namespace ]
+  depends_on = [ module.dev_mongo_namespace, module.mongodb ]
   source = "./module"
 
   gitops_config = module.gitops.gitops_config
