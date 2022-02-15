@@ -106,3 +106,11 @@ variable "bootstrap_prefix" {
   default = "ibm-cp-sls"
 }
 
+variable "mongo_storageclass" {
+  type        = string
+  description = "Storageclass for mongo-ce"
+  default = "ibmc-vpc-block-10iops-tier"
+}
+
+
+
