@@ -29,11 +29,11 @@ versions:
             version: ">= 1.0.0"
       - id: mongo-ce
         refs:
-          - source: https://github.com/cloud-native-toolkit/terraform-gitops-mongo-ce
+          - source: github.com/cloud-native-toolkit/terraform-gitops-mongo-ce
             version: ">= 1.2.0"
       - id: certmgr
         refs:
-          - source: https://github.com/cloud-native-toolkit/terraform-gitops-ocp-cert-manager
+          - source: github.com/cloud-native-toolkit/terraform-gitops-ocp-cert-manager
             version: ">= 1.0.1"
     variables:
       - name: gitops_config
