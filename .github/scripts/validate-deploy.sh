@@ -25,8 +25,15 @@ find . -name "*"
 IFS=","
 for COMPONENT_NAME  in $COMPONENT_NAMES;
 do
-if [[ ! -f "argocd/${LAYER}/cluster/${SERVER_NAME}/${TYPE}/${NAMESPACE}-${COMPONENT_NAME}.yaml" ]]; then
-  echo "ArgoCD config missing - argocd/${LAYER}/cluster/${SERVER_NAME}/${TYPE}/${NAMESPACE}-${COMPONENT_NAME}.yaml"
+
+if [ $COMPONENT_NAME == "ibm-sls-operator-subscription" ]; then
+  _TYPE="operators"
+else 
+  _TYPE=$TYPE
+fi
+
+if [[ ! -f "argocd/${LAYER}/cluster/${SERVER_NAME}/${_TYPE}/${NAMESPACE}-${COMPONENT_NAME}.yaml" ]]; then
+  echo "ArgoCD config missing - argocd/${LAYER}/cluster/${SERVER_NAME}/${_TYPE}/${NAMESPACE}-${COMPONENT_NAME}.yaml"
   exit 1
 fi
 
