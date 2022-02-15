@@ -11,12 +11,12 @@ module "sls" {
   kubeseal_cert = module.gitops.sealed_secrets_cert
   catalog = module.cp_catalogs.catalog_ibmoperators
   namespace   = module.dev_namespace.name
-  sls_key         = var.sls_key
+  sls_key         = module.cp_catalogs.entitlement_key
   mongo_userid    = module.mongodb.username
   mongo_dbpass    = module.mongodb.password
   mongo_namespace = module.mongodb.namespace
   mongo_svcname   = module.mongodb.service_name
   mongo_cacrt     = module.mongodb.ca_cert
   mongo_port      = module.mongodb.port
-
+  sls_storageClass = var.rwm_storage_class
 }

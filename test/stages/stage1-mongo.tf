@@ -10,7 +10,7 @@ module "mongo-operator" {
 }
 
 module "mongodb" {
-  source = "github.com/cloud-native-toolkit/terraform-gitops-mongo-ce?ref=provider"
+  source = "github.com/cloud-native-toolkit/terraform-gitops-mongo-ce"
 
   gitops_config = module.gitops.gitops_config
   git_credentials = module.gitops.git_credentials
