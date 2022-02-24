@@ -12,7 +12,6 @@ module "sls" {
   git_credentials = module.gitops.git_credentials
 
   server_name = module.gitops.server_name
-  cluster_ingress_hostname = module.dev_cluster.platform.ingress
 
   kubeseal_cert = module.gitops.sealed_secrets_cert
   catalog = module.cp_catalogs.catalog_ibmoperators
