@@ -6,7 +6,7 @@ resource "time_sleep" "wait_30_seconds2" {
 }
 module "dev_mongo_namespace" {
   depends_on = [ time_sleep.wait_30_seconds2 ]
-  source = "github.com/cloud-native-toolkit/terraform-gitops-namespace.git?ref=provider"
+  source = "github.com/cloud-native-toolkit/terraform-gitops-namespace.git"
 
   gitops_config = module.gitops.gitops_config
   git_credentials = module.gitops.git_credentials
