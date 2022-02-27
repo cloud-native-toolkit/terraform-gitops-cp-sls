@@ -142,8 +142,3 @@ variable "channel" {
   default     = "3.x"
 }
 
-variable "certmgr_namespace" {
-  type        = string
-  description = "The namespace where cert manager has been deployed"
-  default     = "cert-manager"
-}

@@ -56,7 +56,7 @@ resource null_resource create_yaml02 {
 }
 
 resource gitops_module subscription {
-  depends_on = [null_resource.create_yaml01]
+  depends_on = [null_resource.create_yaml01, gitops_module.instance]
 
   name        = local.chart_name01
   namespace   = var.namespace
@@ -70,7 +70,7 @@ resource gitops_module subscription {
 }
 
 resource gitops_module instance {
-  depends_on = [null_resource.create_yaml02, gitops_module.subscription]
+  depends_on = [null_resource.create_yaml02]
 
   name        = local.chart_name02
   namespace   = var.namespace

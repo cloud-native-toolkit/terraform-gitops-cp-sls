@@ -8,8 +8,6 @@ tags:
   - license
 versions:
   - platforms:
-      - kubernetes
-      - ocp3
       - ocp4
     providers:
       - name: gitops
@@ -33,10 +31,6 @@ versions:
       - id: mongodb
         refs:
           - source: github.com/cloud-native-toolkit/terraform-gitops-mongo-ce
-            version: ">= 1.0.0"
-      - id: certmgr
-        refs:
-          - source: github.com/cloud-native-toolkit/terraform-gitops-ocp-cert-manager
             version: ">= 1.0.0"
     variables:
       - name: gitops_config
@@ -103,7 +97,4 @@ versions:
         moduleRef:
           id: mongodb
           output: svcname
-      - name: certmgr_namespace
-        moduleRef:
-          id: certmgr
-          output: namespace
+
