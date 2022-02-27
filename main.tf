@@ -56,14 +56,14 @@ resource null_resource create_yaml02 {
 }
 
 resource gitops_module subscription {
-  depends_on = [null_resource.create_yaml01, gitops_module.instance]
+  depends_on = [null_resource.create_yaml01]
 
   name        = local.chart_name01
   namespace   = var.namespace
   content_dir = local.yaml_dir01
   server_name = var.server_name
   layer       = local.layer
-  type        = "instances"
+  type        = "operators"
   branch      = local.application_branch
   config      = yamlencode(var.gitops_config)
   credentials = yamlencode(var.git_credentials)
@@ -77,7 +77,7 @@ resource gitops_module instance {
   content_dir = local.yaml_dir02
   server_name = var.server_name
   layer       = local.layer
-  type        = "operators"
+  type        = "instances"
   branch      = local.application_branch
   config      = yamlencode(var.gitops_config)
   credentials = yamlencode(var.git_credentials)
