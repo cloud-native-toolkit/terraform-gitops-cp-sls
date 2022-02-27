@@ -62,6 +62,12 @@ variable "git_credentials" {
   description = "The credentials for the gitops repo(s)"
 }
 
+variable "cluster_ingress_hostname" {
+  type        = string
+  description = "Ingress hostname of the IKS cluster."
+  default     = ""
+}
+
 variable "namespace" {
   type        = string
   description = "The namespace where the application should be deployed"
