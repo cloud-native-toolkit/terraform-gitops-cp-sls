@@ -49,7 +49,7 @@ resource null_resource create_yaml02 {
     command = "${path.module}/scripts/create-yaml02.sh '${local.ingress_host}' '${var.namespace}' '${var.sls_storageClass}' '${var.mongo_namespace}' '${var.mongo_svcname}' '${local.chart_name02}' '${var.mongo_port}' '${local.yaml_dir02}'"
 
     environment = {
-      KUBECONFIG = var.cluster_config_file
+
       CA_CRT = var.mongo_cacrt
     }
   }
