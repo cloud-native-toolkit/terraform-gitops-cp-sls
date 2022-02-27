@@ -14,6 +14,7 @@ module "mongo-operator" {
   server_name = module.gitops.server_name
   namespace = module.dev_mongo_namespace.name
   kubeseal_cert = module.gitops.sealed_secrets_cert
+  mongo_storageclass ="ibmc-vpc-block-10iops-tier"
 }
 
 module "mongodb" {
@@ -25,5 +26,5 @@ module "mongodb" {
   server_name = module.gitops.server_name
   namespace = module.mongo-operator.namespace
   kubeseal_cert = module.gitops.sealed_secrets_cert
-  storage_class_name = var.rwm_storage_class
+  storage_class_name = "ibmc-vpc-block-10iops-tier"
 }
