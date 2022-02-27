@@ -70,7 +70,7 @@ resource gitops_module subscription {
 }
 
 resource gitops_module instance {
-  depends_on = [null_resource.create_yaml02]
+  depends_on = [null_resource.create_yaml02,gitops_module.subscription]
 
   name        = local.chart_name02
   namespace   = var.namespace
