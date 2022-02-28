@@ -1,5 +1,5 @@
 resource "time_sleep" "wait_30_seconds3" {
-  depends_on = [ module.dev_mongo_namespace ]
+  depends_on = [ module.mongodb ]
 
   create_duration = "30s"
 }
