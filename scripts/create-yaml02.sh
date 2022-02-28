@@ -28,7 +28,7 @@ slsinstance:
       configDb: admin
       nodes:
         - host: '$SVC.$MONGONAMESPACE.svc'
-          port: '$PORT'
+          port: ${PORT}
       secretName: sls-mongo-credentials
       authMechanism: DEFAULT
       retryWrites: true

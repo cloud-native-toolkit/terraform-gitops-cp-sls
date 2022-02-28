@@ -99,6 +99,38 @@ if [[ $count -eq 10 ]]; then
   exit 1
 fi
 
+# Wait for license service to come online and obtain license ID
+sleep 5m
+
+count=0
+until kubectl get LicenseService ibm-sls-operator-instance -n ${NAMESPACE}  --output="jsonpath={..registrationKey}") || [[ $count -eq 10 ]]; do
+  echo "Waiting for LicenseService  in ${NAMESPACE}"
+  count=$((count + 1))
+  sleep 60
+done
+
+if [[ $count -eq 10 ]]; then
+  echo "Timed out waiting for LicenseService  in ${NAMESPACE}"
+  kubectl get all -n "${NAMESPACE}"
+  exit 1
+fi
+
+
+#count=0
+#until kubectl get deployment ibm-sls-operator-instance-api-licensing -n "${NAMESPACE}" || [[ $count -eq 10 ]]; do
+#  echo "Waiting for deployment/iibm-sls-operator-instance-api-licensing in ${NAMESPACE}"
+#  count=$((count + 1))
+#  sleep 60
+#done
+
+#if [[ $count -eq 10 ]]; then
+#  echo "Timed out waiting for deployment/ibm-sls-operator-instance-api-licensing in ${NAMESPACE}"
+#  kubectl get all -n "${NAMESPACE}"
+#  exit 1
+#fi
+
+
+
 #kubectl rollout status "deployment/${DEPLOYMENT}" -n "${NAMESPACE}" || exit 1
 
 cd ..

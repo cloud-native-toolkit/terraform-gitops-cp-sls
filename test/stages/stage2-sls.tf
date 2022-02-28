@@ -24,5 +24,8 @@ module "sls" {
   mongo_cacrt     = module.mongodb.cacrt
   mongo_port      = module.mongodb.port
   sls_storageClass = var.rwm_storage_class
+
+  cluster_ingress = module.dev_cluster.platform.ingress
+  
 }
 
