@@ -34,8 +34,8 @@ slsinstance:
       retryWrites: true
       certificates:
       - alias: mongoca
-        crt: |
-$(echo | awk -v cavar="$CA_CRT" '{ printf "        "cavar"\n        "; }')
+        crt: |-
+        $(echo | awk -v cavar="$CA_CRT" '{ printf cavar"\n        "; }')
     rlks:
       storage:
         class: ${SLSSTOR}
