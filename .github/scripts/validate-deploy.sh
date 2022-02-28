@@ -68,7 +68,7 @@ echo "Printing payload/${LAYER}/namespace/${NAMESPACE}/${COMPONENT_NAME}/values.
 cat "payload/${LAYER}/namespace/${NAMESPACE}/${COMPONENT_NAME}/values.yaml"
 
 
-
+# Deployment Validation
 sleep 5m
 count=0
 until kubectl get namespace "${NAMESPACE}" 1> /dev/null 2> /dev/null || [[ $count -eq 20 ]]; do
@@ -92,7 +92,6 @@ until kubectl get deployment ibm-truststore-mgr-controller-manager -n "${NAMESPA
   count=$((count + 1))
   sleep 60
 done
-
 
 if [[ $count -eq 10 ]]; then
   echo "Timed out waiting for deployment/ibm-truststore-mgr-controller-manager in ${NAMESPACE}"
