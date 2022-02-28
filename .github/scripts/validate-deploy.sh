@@ -69,7 +69,7 @@ cat "payload/${LAYER}/namespace/${NAMESPACE}/${COMPONENT_NAME}/values.yaml"
 
 
 
-sleep 7m
+sleep 5m
 count=0
 until kubectl get namespace "${NAMESPACE}" 1> /dev/null 2> /dev/null || [[ $count -eq 20 ]]; do
   echo "Waiting for namespace: ${NAMESPACE}"
