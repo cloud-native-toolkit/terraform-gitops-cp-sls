@@ -35,7 +35,7 @@ slsinstance:
       certificates:
       - alias: mongoca
         crt: |
-$(echo $CA_CRT | awk '{printf "        %s\r\n", $0}')
+$(echo | awk -v ca_var="$CA_CRT" '{ printf "        "ca_var"\n        "; }')
     rlks:
       storage:
         class: ${SLSSTOR}
