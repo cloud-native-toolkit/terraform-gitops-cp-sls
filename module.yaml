@@ -1,9 +1,9 @@
 name: gitops-cp-sls
 type: gitops
-description: "Module to populate a gitops repository for SLS service"
+description: "Module to populate a gitops repository for IBM SLS service"
 tags:
   - gitops
-  - cluudpak
+  - cloudpak
   - ibm
   - license
 versions:
@@ -21,16 +21,13 @@ versions:
         refs:
           - source: github.com/cloud-native-toolkit/terraform-gitops-cp-catalogs.git
             version: ">= 1.0.0"
-      - id: cluster
-        refs: []
-        interface: github.com/cloud-native-toolkit/automation-modules#cluster
       - id: namespace
         refs:
           - source: github.com/cloud-native-toolkit/terraform-gitops-namespace.git
             version: ">= 1.0.0"
       - id: mongodb
         refs:
-          - source: github.com/cloud-native-toolkit/terraform-gitops-mongo-ce
+          - source: github.com/cloud-native-toolkit/terraform-gitops-mongo-ce.git
             version: ">= 1.0.0"
     variables:
       - name: gitops_config
@@ -45,18 +42,6 @@ versions:
         moduleRef:
           id: gitops
           output: server_name
-      - name: cluster_type
-        moduleRef:
-          id: cluster
-          output: platform.type_code
-      - name: cluster_ingress_hostname
-        moduleRef:
-          id: cluster
-          output: platform.ingress
-      - name: tls_secret_name
-        moduleRef:
-          id: cluster
-          output: platform.tls_secret
       - name: namespace
         moduleRef:
           id: namespace

@@ -1,5 +1,5 @@
 resource "time_sleep" "wait_30_seconds4" {
-  depends_on = [ module.dev_mongo_namespace, module.mongodb, module.dev_namespace ]
+  depends_on = [ module.dev_mongo_namespace, module.mongodb, module.dev_namespace, module.jetstack-cert ]
 
   create_duration = "30s"
 }
