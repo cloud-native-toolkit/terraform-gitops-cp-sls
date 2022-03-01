@@ -28,14 +28,14 @@ slsinstance:
       configDb: admin
       nodes:
         - host: '$SVC.$MONGONAMESPACE.svc'
-          port: '$PORT'
+          port: ${PORT}
       secretName: sls-mongo-credentials
       authMechanism: DEFAULT
       retryWrites: true
       certificates:
       - alias: mongoca
         crt: |
-          $CA_CRT
+$(echo | awk -v ca_var="$CA_CRT" '{ printf ca_var; }' | sed 's/^/          /')
     rlks:
       storage:
         class: ${SLSSTOR}

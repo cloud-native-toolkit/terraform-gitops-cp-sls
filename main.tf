@@ -5,8 +5,7 @@ locals {
   bin_dir       = module.setup_clis.bin_dir
   yaml_dir01      = "${path.cwd}/.tmp/${local.name}/chart/${local.chart_name01}/"
   yaml_dir02      = "${path.cwd}/.tmp/${local.name}/chart/${local.chart_name02}/"
-  ingress_host  = "${local.name}-${var.namespace}.${var.cluster_ingress_hostname}"
-  ingress_url   = "https://${local.ingress_host}"
+
   service_url   = "http://${local.name}.${var.namespace}"
   values_content01 = {
     subscriptions = {
@@ -46,10 +45,10 @@ resource null_resource create_yaml01 {
 resource null_resource create_yaml02 {
   depends_on = [null_resource.create_yaml01]
   provisioner "local-exec" {
-    command = "${path.module}/scripts/create-yaml02.sh '${local.ingress_host}' '${var.namespace}' '${var.sls_storageClass}' '${var.mongo_namespace}' '${var.mongo_svcname}' '${local.chart_name02}' '${var.mongo_port}' '${local.yaml_dir02}'"
+    command = "${path.module}/scripts/create-yaml02.sh '${var.cluster_ingress}' '${var.namespace}' '${var.sls_storageClass}' '${var.mongo_namespace}' '${var.mongo_svcname}' '${local.chart_name02}' '${var.mongo_port}' '${local.yaml_dir02}'"
 
     environment = {
-      KUBECONFIG = var.cluster_config_file
+
       CA_CRT = var.mongo_cacrt
     }
   }
@@ -70,7 +69,7 @@ resource gitops_module subscription {
 }
 
 resource gitops_module instance {
-  depends_on = [null_resource.create_yaml02, gitops_module.subscription]
+  depends_on = [null_resource.create_yaml02,gitops_module.subscription]
 
   name        = local.chart_name02
   namespace   = var.namespace
