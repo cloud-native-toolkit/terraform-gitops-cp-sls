@@ -29,6 +29,10 @@ versions:
         refs:
           - source: github.com/cloud-native-toolkit/terraform-gitops-mongo-ce.git
             version: ">= 1.0.0"
+      - id: sc-manager
+        refs:
+          - source: github.com/cloud-native-toolkit/terraform-util-storage-class-manager.git
+            version: '>= 1.0.0'
     variables:
       - name: gitops_config
         moduleRef:
@@ -82,4 +86,7 @@ versions:
         moduleRef:
           id: mongodb
           output: svcname
-
+      - name: sls_storageClass
+        moduleRef:
+          id: sc-manager
+          output: rwx_storage_class

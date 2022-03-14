@@ -118,6 +118,14 @@ variable "ingress_subdomain" {
   default = ""
 }
 
-variable "rwm_storage_class" {
+variable "rwx_storage_class" {
   default = "portworx-db2-rwx-sc"
+}
+
+variable "file_storage_class" {
+  default = ""
+}
+
+variable "block_storage_class" {
+  default = "ibmc-vpc-block-10iops-tier"
 }
