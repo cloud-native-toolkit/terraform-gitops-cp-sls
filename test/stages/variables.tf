@@ -118,6 +118,3 @@ variable "ingress_subdomain" {
   default = ""
 }
 
-variable "rwm_storage_class" {
-  default = "portworx-db2-rwx-sc"
-}
