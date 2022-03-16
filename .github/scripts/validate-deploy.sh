@@ -100,17 +100,16 @@ if [[ $count -eq 10 ]]; then
 fi
 
 # Wait for license service to come online and obtain license ID
-sleep 5m
 
 count=0
-until kubectl get deployment ibm-sls-operator-instance-api-licensing -n "${NAMESPACE}" || [[ $count -eq 15 ]]; do
-  echo "Waiting for deployment/ibm-sls-operator-instance-api-licensing in ${NAMESPACE}"
+until kubectl get deployment sls-api-licensing -n "${NAMESPACE}" || [[ $count -eq 20 ]]; do
+  echo "Waiting for deployment/sls-api-licensing in ${NAMESPACE}"
   count=$((count + 1))
   sleep 60
 done
 
 if [[ $count -eq 15 ]]; then
-  echo "Timed out waiting for deployment/ibm-sls-operator-instance-api-licensing in ${NAMESPACE}"
+  echo "Timed out waiting for deployment/sls-api-licensing in ${NAMESPACE}"
   kubectl get all -n "${NAMESPACE}"
   exit 1
 fi
