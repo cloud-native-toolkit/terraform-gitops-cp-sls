@@ -118,3 +118,5 @@ variable "ingress_subdomain" {
   default = ""
 }
 
+variable "cp_entitlement_key" {
+}

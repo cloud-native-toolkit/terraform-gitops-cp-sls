@@ -80,13 +80,14 @@ variable "sls_key" {
 variable "mongo_userid" {
   type        = string
   description = "mongodb admin userid, should stay admin in most cases"
+  sensitive   = true
   default     = "admin"
 }
 
 variable "mongo_dbpass" {
   type        = string
   description = "mongodb password"
-
+  sensitive   = true
 }
 
 variable "mongo_namespace" {
@@ -140,5 +141,10 @@ variable "channel" {
   type        = string
   description = "The channel that should be used to deploy the operator"
   default     = "3.x"
+}
+
+variable "entitlementkey" {
+  type        = string
+  description = "IBM entitlement key for MAS"
 }
 
