@@ -56,6 +56,7 @@ jobs:
           TF_VAR_git_org: ${{ steps.variables.outputs.org }}
           TF_VAR_git_repo: ${{ steps.variables.outputs.repo }}
           TF_VAR_ibmcloud_api_key: ${{ secrets.IBMCLOUD_API_KEY }}
+          TF_VAR_cp_entitlement_key: ${{ secrets.CP_ENTITLEMENT_KEY }}
           IBMCLOUD_API_KEY: ${{ secrets.IBMCLOUD_API_KEY }}
           TF_VAR_mongo_dbpass: ${{ secrets.MONGO_DBPASS }}
           MONGO_DBPASS: ${{ secrets.MONGO_DBPASS }}
@@ -73,6 +74,7 @@ jobs:
           TF_VAR_git_org: ${{ steps.variables.outputs.org }}
           TF_VAR_git_repo: ${{ steps.variables.outputs.repo }}
           TF_VAR_ibmcloud_api_key: ${{ secrets.IBMCLOUD_API_KEY }}
+          TF_VAR_cp_entitlement_key: ${{ secrets.CP_ENTITLEMENT_KEY }}
           IBMCLOUD_API_KEY: ${{ secrets.IBMCLOUD_API_KEY }}
           TF_VAR_mongo_dbpass: ${{ secrets.MONGO_DBPASS }}
           MONGO_DBPASS: ${{ secrets.MONGO_DBPASS }}
