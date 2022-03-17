@@ -50,8 +50,6 @@ module "add_pullsecret" {
 }
 
 resource null_resource create_secret {
-  depends_on = [null_resource.create_yaml]
-
   provisioner "local-exec" {
     command = "${path.module}/scripts/create-secret.sh '${var.namespace}' '${var.mongo_userid}' '${var.mongo_dbpass}' '${local.secret_dir}' '${local.password_secret_name}'"
   }
