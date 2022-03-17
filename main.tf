@@ -32,6 +32,20 @@ module setup_clis {
   source = "github.com/cloud-native-toolkit/terraform-util-clis.git"
 }
 
+module "add_pullsecret" {
+  source = "github.com/cloud-native-toolkit/terraform-gitops-pull-secret"
+
+  gitops_config = var.gitops_config
+  git_credentials = var.git_credentials
+  server_name = var.server_name
+  kubeseal_cert = var.kubeseal_cert
+  namespace = var.namespace
+  docker_username = "cp"
+  docker_password = var.entitlementkey
+  docker_server   = "cp.icr.io"
+  secret_name     = "ibm-entitlement"
+}
+
 resource null_resource create_yaml01 {
   provisioner "local-exec" {
     command = "${path.module}/scripts/create-yaml01.sh '${local.chart_name01}' '${local.yaml_dir01}' "
@@ -55,7 +69,7 @@ resource null_resource create_yaml02 {
 }
 
 resource gitops_module subscription {
-  depends_on = [null_resource.create_yaml01]
+  depends_on = [null_resource.create_yaml01,module.add_pullsecret]
 
   name        = local.chart_name01
   namespace   = var.namespace

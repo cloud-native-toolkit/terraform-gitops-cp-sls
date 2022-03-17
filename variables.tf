@@ -142,3 +142,8 @@ variable "channel" {
   default     = "3.x"
 }
 
+variable "entitlementkey" {
+  type        = string
+  description = "IBM entitlement key for MAS"
+}
+

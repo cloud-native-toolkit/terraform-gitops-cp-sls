@@ -24,6 +24,7 @@ module "sls" {
   mongo_cacrt     = module.mongodb.cacrt
   mongo_port      = module.mongodb.port
   cluster_ingress = module.dev_cluster.platform.ingress
+  entitlementkey  = module.cp_catalogs.entitlement_key
   
 }
 
