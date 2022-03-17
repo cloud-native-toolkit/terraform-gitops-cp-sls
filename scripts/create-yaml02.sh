@@ -10,16 +10,15 @@ mkdir -p "${TMP_DIR}"
 
 INGRESS="$1"
 SLSNAMESPACE="$2"
-SLSSTOR="$3"
-MONGONAMESPACE="$4"
-SVC="$5"
-NAME="$6"
-PORT="$7"
-DEST_DIR="$8"
+MONGONAMESPACE="$3"
+SVC="$4"
+NAME="$5"
+PORT="$6"
+DEST_DIR="$7"
 
 cat > "${TMP_DIR}/values.yaml" << EOL
 slsinstance:
-  name: ibm-sls-operator-instance
+  name: sls
   spec:
     license:
       accept: true
@@ -36,19 +35,25 @@ slsinstance:
       - alias: mongoca
         crt: |
 $(echo | awk -v ca_var="$CA_CRT" '{ printf ca_var; }' | sed 's/^/          /')
-    rlks:
-      storage:
-        class: ${SLSSTOR}
-        size: 20G
+    settings:
+      auth:
+        enforce: true
+      compliance:
+        enforce: true
+      reconciliation:
+        enabled: true
+        reconciliationPeriod: 1800
+      registration:
+        open: true
+      reporting:
+        maxDailyReports: 90
+        maxHourlyReports: 24
+        maxMonthlyReports: 12
+        reportGenerationPeriod: 3600
+        samplingPeriod: 900
 EOL
   mkdir -p "${DEST_DIR}"
 
-  #VALUES_CONTENT=${CHART02_DIR}"/values.yaml"
   VALUES_FILE="values.yaml"
   cp "${TMP_DIR}/${VALUES_FILE}" "${CHART02_DIR}"
   cp -R "${CHART02_DIR}"/* "${DEST_DIR}"  
-  #echo "${VALUES_CONTENT02}" > "${DEST_DIR}${VALUES_FILE}"
-
-
-#SLSKEY=$(kubectl get LicenseService sls -n ${SLSNAMESPACE} --output="jsonpath={..registrationKey}")
-#echo ${SLSKEY} > ${TMP_DIR}/sls-key

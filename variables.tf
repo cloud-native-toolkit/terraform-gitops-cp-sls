@@ -77,11 +77,6 @@ variable "sls_key" {
   description = "ibm container entitlement key for sls"
 }
 
-variable "sls_storageClass" {
-  type        = string
-  description = "Name for sls file storage class"
-}
-
 variable "mongo_userid" {
   type        = string
   description = "mongodb admin userid, should stay admin in most cases"

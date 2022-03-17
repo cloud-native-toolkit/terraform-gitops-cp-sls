@@ -45,7 +45,7 @@ resource null_resource create_yaml01 {
 resource null_resource create_yaml02 {
   depends_on = [null_resource.create_yaml01]
   provisioner "local-exec" {
-    command = "${path.module}/scripts/create-yaml02.sh '${var.cluster_ingress}' '${var.namespace}' '${var.sls_storageClass}' '${var.mongo_namespace}' '${var.mongo_svcname}' '${local.chart_name02}' '${var.mongo_port}' '${local.yaml_dir02}'"
+    command = "${path.module}/scripts/create-yaml02.sh '${var.cluster_ingress}' '${var.namespace}' '${var.mongo_namespace}' '${var.mongo_svcname}' '${local.chart_name02}' '${var.mongo_port}' '${local.yaml_dir02}'"
 
     environment = {
 

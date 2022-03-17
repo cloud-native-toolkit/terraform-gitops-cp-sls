@@ -1,4 +1,5 @@
 name: gitops-cp-sls
+alias: sls
 type: gitops
 description: "Module to populate a gitops repository for IBM SLS service"
 tags:
@@ -6,6 +7,7 @@ tags:
   - cloudpak
   - ibm
   - license
+softwareProvider: ibm-cp
 versions:
   - platforms:
       - ocp4
