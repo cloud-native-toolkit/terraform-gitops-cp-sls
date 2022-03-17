@@ -69,12 +69,12 @@ cat "payload/${LAYER}/namespace/${NAMESPACE}/${COMPONENT_NAME}/values.yaml"
 
 
 # Deployment Validation
-sleep 5m
+
 count=0
 until kubectl get namespace "${NAMESPACE}" 1> /dev/null 2> /dev/null || [[ $count -eq 20 ]]; do
   echo "Waiting for namespace: ${NAMESPACE}"
   count=$((count + 1))
-  sleep 15
+  sleep 60
 done
 
 if [[ $count -eq 20 ]]; then
@@ -87,13 +87,13 @@ fi
 kubectl get all -n "${NAMESPACE}"
 
 count=0
-until kubectl get deployment ibm-truststore-mgr-controller-manager -n "${NAMESPACE}" || [[ $count -eq 10 ]]; do
+until kubectl get deployment ibm-truststore-mgr-controller-manager -n "${NAMESPACE}" || [[ $count -eq 15 ]]; do
   echo "Waiting for deployment/ibm-truststore-mgr-controller-manager in ${NAMESPACE}"
   count=$((count + 1))
   sleep 60
 done
 
-if [[ $count -eq 10 ]]; then
+if [[ $count -eq 15 ]]; then
   echo "Timed out waiting for deployment/ibm-truststore-mgr-controller-manager in ${NAMESPACE}"
   kubectl get all -n "${NAMESPACE}"
   exit 1
@@ -108,7 +108,7 @@ until kubectl get deployment sls-api-licensing -n "${NAMESPACE}" || [[ $count -e
   sleep 60
 done
 
-if [[ $count -eq 15 ]]; then
+if [[ $count -eq 20 ]]; then
   echo "Timed out waiting for deployment/sls-api-licensing in ${NAMESPACE}"
   kubectl get all -n "${NAMESPACE}"
   exit 1
