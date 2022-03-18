@@ -16,7 +16,6 @@ module "sls" {
   kubeseal_cert = module.gitops.sealed_secrets_cert
   catalog = module.cp_catalogs.catalog_ibmoperators
   namespace   = module.dev_namespace.name
-  sls_key         = module.cp_catalogs.entitlement_key
   mongo_userid    = module.mongodb.username
   mongo_dbpass    = module.mongodb.password
   mongo_namespace = module.mongodb.namespace
@@ -24,7 +23,7 @@ module "sls" {
   mongo_cacrt     = module.mongodb.cacrt
   mongo_port      = module.mongodb.port
   cluster_ingress = module.dev_cluster.platform.ingress
-  entitlementkey  = module.cp_catalogs.entitlement_key
+  entitlement_key  = module.cp_catalogs.entitlement_key
   
 }
 

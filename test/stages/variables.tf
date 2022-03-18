@@ -84,11 +84,6 @@ variable "namespace" {
   default = "gitops-cp-sls"
 }
 
-variable "sls_key" {
-  type        = string
-  description = "sls entitlement key"
-}
-
 variable "mongo_dbpass" {
   type        = string
   description = "mongodb password"
