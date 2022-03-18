@@ -44,7 +44,7 @@ module "add_pullsecret" {
   kubeseal_cert = var.kubeseal_cert
   namespace = var.namespace
   docker_username = "cp"
-  docker_password = var.entitlementkey
+  docker_password = var.entitlement_key
   docker_server   = "cp.icr.io"
   secret_name     = "ibm-entitlement"
 }

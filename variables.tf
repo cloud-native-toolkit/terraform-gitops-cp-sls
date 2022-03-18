@@ -72,11 +72,6 @@ variable "namespace" {
   description = "The namespace where the application should be deployed"
 }
 
-variable "sls_key" {
-  type        = string
-  description = "ibm container entitlement key for sls"
-}
-
 variable "mongo_userid" {
   type        = string
   description = "mongodb admin userid, should stay admin in most cases"
@@ -143,7 +138,7 @@ variable "channel" {
   default     = "3.x"
 }
 
-variable "entitlementkey" {
+variable "entitlement_key" {
   type        = string
   description = "IBM entitlement key for MAS"
 }
