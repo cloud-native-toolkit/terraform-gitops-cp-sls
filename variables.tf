@@ -97,11 +97,6 @@ variable "mongo_svcname" {
   
 }
 
-variable "mongo_cacrt" {
-  type        = string
-  description = "The CA certificate for the mongo instance"
-}
-
 variable "mongo_port" {
   type        = string
   description = "The port used by the the mongo instance"
