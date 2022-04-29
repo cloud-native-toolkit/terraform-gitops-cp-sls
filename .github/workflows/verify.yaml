@@ -19,7 +19,7 @@ jobs:
       matrix:
         testcase:
      #     - ocp4_latest_gitops_maximo
-          - ocp4_latest_gitops
+          - ocp4_latest_gitops_cp4i
       #      max-parallel: 1
       fail-fast: false
 
