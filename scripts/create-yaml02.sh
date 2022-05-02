@@ -31,10 +31,6 @@ slsinstance:
       secretName: sls-mongo-credentials
       authMechanism: DEFAULT
       retryWrites: true
-      certificates:
-      - alias: mongoca
-        crt: |
-$(echo | awk -v ca_var="$CA_CRT" '{ printf ca_var; }' | sed 's/^/          /')
     settings:
       auth:
         enforce: true

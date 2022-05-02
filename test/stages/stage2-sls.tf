@@ -1,5 +1,5 @@
 resource "time_sleep" "wait_30_seconds4" {
-  depends_on = [ module.dev_mongo_namespace, module.mongodb, module.dev_namespace, module.jetstack-cert ]
+  depends_on = [ module.dev_mongo_namespace, module.mongodb, module.dev_namespace ]
 
   create_duration = "30s"
 }
@@ -20,7 +20,6 @@ module "sls" {
   mongo_dbpass    = module.mongodb.password
   mongo_namespace = module.mongodb.namespace
   mongo_svcname   = module.mongodb.svcname
-  mongo_cacrt     = module.mongodb.cacrt
   mongo_port      = module.mongodb.port
   cluster_ingress = module.dev_cluster.platform.ingress
   entitlement_key  = module.cp_catalogs.entitlement_key

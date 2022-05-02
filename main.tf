@@ -58,7 +58,7 @@ resource null_resource create_secret {
 module seal_secrets {
   depends_on = [null_resource.create_secret]
 
-  source = "github.com/cloud-native-toolkit/terraform-util-seal-secrets.git?ref=v1.0.0"
+  source = "github.com/cloud-native-toolkit/terraform-util-seal-secrets.git?ref=v1.1.0"
 
   source_dir    = local.secret_dir
   dest_dir      = "${local.yaml_dir01}/templates"
@@ -82,10 +82,6 @@ resource null_resource create_yaml02 {
   provisioner "local-exec" {
     command = "${path.module}/scripts/create-yaml02.sh '${var.cluster_ingress}' '${var.namespace}' '${var.mongo_namespace}' '${var.mongo_svcname}' '${local.chart_name02}' '${var.mongo_port}' '${local.yaml_dir02}'"
 
-    environment = {
-
-      CA_CRT = var.mongo_cacrt
-    }
   }
 }
 

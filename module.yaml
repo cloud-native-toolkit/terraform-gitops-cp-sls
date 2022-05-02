@@ -68,10 +68,6 @@ versions:
         moduleRef:
           id: mongodb
           output: namespace
-      - name: mongo_cacrt
-        moduleRef:
-          id: mongodb
-          output: cacrt
       - name: mongo_port
         moduleRef:
           id: mongodb
