@@ -20,4 +20,3 @@ module "sls" {
   entitlement_key  = module.cp_catalogs.entitlement_key
   
 }
-
