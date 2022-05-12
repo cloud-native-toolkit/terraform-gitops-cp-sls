@@ -2,6 +2,7 @@
 
 Module to populate a gitops repository with the SLS operator subscription and LicenseService(instance) for MAS. 
 
+
 ## Software dependencies
 
 The module depends on the following software components:
