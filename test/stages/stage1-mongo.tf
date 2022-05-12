@@ -6,7 +6,6 @@ resource "time_sleep" "wait_30_seconds" {
 }
 
 module "mongo-operator" {
-  depends_on = [time_sleep.wait_30_seconds]
   source = "github.com/cloud-native-toolkit/terraform-gitops-mongo-ce-operator"
 
   gitops_config = module.gitops.gitops_config

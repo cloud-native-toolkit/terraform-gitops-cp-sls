@@ -1,10 +1,4 @@
-resource "time_sleep" "wait_30_seconds3" {
-  depends_on = [ module.mongodb ]
-
-  create_duration = "30s"
-}
 module "dev_namespace" {
-  depends_on = [ time_sleep.wait_30_seconds3 ]
   source = "github.com/cloud-native-toolkit/terraform-gitops-namespace.git"
 
   gitops_config = module.gitops.gitops_config
