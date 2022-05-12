@@ -6,7 +6,6 @@ resource "time_sleep" "wait_30_seconds" {
 }
 
 module "mongo-operator" {
-  depends_on = [time_sleep.wait_30_seconds]
   source = "github.com/cloud-native-toolkit/terraform-gitops-mongo-ce-operator"
 
   gitops_config = module.gitops.gitops_config
@@ -14,7 +13,7 @@ module "mongo-operator" {
   server_name = module.gitops.server_name
   namespace = module.dev_mongo_namespace.name
   kubeseal_cert = module.gitops.sealed_secrets_cert
-  mongo_storageclass ="ibmc-vpc-block-10iops-tier"
+
 }
 
 module "mongodb" {
