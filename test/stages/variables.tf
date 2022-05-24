@@ -63,7 +63,7 @@ variable "git_org" {
 }
 
 variable "git_repo" {
-  default = "git-module-test"
+  default = "git-module-sls-test"
 }
 
 variable "gitops_namespace" {
@@ -81,7 +81,7 @@ variable "tls_secret_name" {
 variable "namespace" {
   type        = string
   description = "sls namespace"
-  default = "gitops-cp-sls"
+  default = "ibm-sls"
 }
 
 variable "mongo_dbpass" {
