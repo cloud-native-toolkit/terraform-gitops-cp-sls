@@ -112,3 +112,4 @@ resource gitops_module instance {
   config      = yamlencode(var.gitops_config)
   credentials = yamlencode(var.git_credentials)
 }
+
