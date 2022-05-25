@@ -70,6 +70,7 @@ variable "cluster_ingress" {
 variable "namespace" {
   type        = string
   description = "The namespace where the application should be deployed"
+  default     = "ibm-sls"
 }
 
 variable "mongo_userid" {
