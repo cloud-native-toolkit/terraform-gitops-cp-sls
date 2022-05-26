@@ -1,4 +1,5 @@
-module "cp_catalogs" {
+// uncomment this if installing on a cluster that does not already have ibm catalogs
+/*module "cp_catalogs" {
   source = "github.com/cloud-native-toolkit/terraform-gitops-cp-catalogs.git"
 
   gitops_config = module.gitops.gitops_config
@@ -7,4 +8,4 @@ module "cp_catalogs" {
   kubeseal_cert = module.gitops.sealed_secrets_cert
   entitlement_key = var.cp_entitlement_key
   
-}
+}*/

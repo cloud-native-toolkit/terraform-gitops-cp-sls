@@ -18,6 +18,6 @@ module "sls" {
   mongo_svcname   = module.mongodb.svcname
   mongo_port      = module.mongodb.port
   cluster_ingress = module.dev_cluster.platform.ingress
-  entitlement_key  = module.cp_catalogs.entitlement_key
+  entitlement_key  = var.cp_entitlement_key
   
 }
