@@ -1,6 +1,6 @@
 module "sls" {
   // Only uncomment this if you are installing on a cluster that does NOT have a working ibm-cert-manager already installed
-  //depends_on = [module.jetstack-cert]
+  depends_on = [module.jetstack-cert]
   
   source = "./module"
 
