@@ -1,4 +1,5 @@
 module "sls" {
+  // Only uncomment this if you are installing on a cluster that does NOT have a working ibm-cert-manager already installed
   depends_on = [module.jetstack-cert]
   
   source = "./module"
@@ -17,6 +18,6 @@ module "sls" {
   mongo_svcname   = module.mongodb.svcname
   mongo_port      = module.mongodb.port
   cluster_ingress = module.dev_cluster.platform.ingress
-  entitlement_key  = module.cp_catalogs.entitlement_key
+  entitlement_key  = var.cp_entitlement_key
   
 }

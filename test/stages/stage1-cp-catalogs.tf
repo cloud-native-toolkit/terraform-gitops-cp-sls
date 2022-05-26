@@ -1,3 +1,4 @@
+// uncomment this if installing on a cluster that does not already have ibm catalogs
 module "cp_catalogs" {
   source = "github.com/cloud-native-toolkit/terraform-gitops-cp-catalogs.git"
 
