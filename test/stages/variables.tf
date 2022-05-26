@@ -84,11 +84,6 @@ variable "namespace" {
   default = "ibm-sls"
 }
 
-variable "mongo_dbpass" {
-  type        = string
-  description = "mongodb password"
-}
-
 variable "mongo_namespace" {
   type        = string
   description = "Namespace where MongoDB is deployed"
